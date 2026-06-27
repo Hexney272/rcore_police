@@ -94,33 +94,11 @@ function L0_1(A0_2)
 end
 tprint = L0_1
 function L0_1(A0_2, A1_2, ...)
-  local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2
-  L2_2 = print
-  L3_2 = string
-  L3_2 = L3_2.format
-  L4_2 = "%s %s"
-  L5_2 = A1_2
-  L7_2 = A0_2
-  L6_2 = A0_2.format
-  L8_2 = ...
-  L6_2, L7_2, L8_2 = L6_2(L7_2, L8_2)
-  L3_2, L4_2, L5_2, L6_2, L7_2, L8_2 = L3_2(L4_2, L5_2, L6_2, L7_2, L8_2)
-  L2_2(L3_2, L4_2, L5_2, L6_2, L7_2, L8_2)
+  print(string.format("%s %s", A1_2, string.format(A0_2, ...)))
 end
 afprint = L0_1
 function L0_1(A0_2, A1_2, ...)
-  local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2
-  L2_2 = print
-  L3_2 = string
-  L3_2 = L3_2.format
-  L4_2 = "%s %s"
-  L5_2 = A1_2
-  L7_2 = A0_2
-  L6_2 = A0_2.format
-  L8_2 = ...
-  L6_2, L7_2, L8_2 = L6_2(L7_2, L8_2)
-  L3_2, L4_2, L5_2, L6_2, L7_2, L8_2 = L3_2(L4_2, L5_2, L6_2, L7_2, L8_2)
-  L2_2(L3_2, L4_2, L5_2, L6_2, L7_2, L8_2)
+  print(string.format("%s %s", A1_2, string.format(A0_2, ...)))
 end
 fprint = L0_1
 function L0_1(A0_2, ...)
