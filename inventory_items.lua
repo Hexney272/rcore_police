@@ -30,14 +30,16 @@ local OX_ITEMS = {
         label = "Wheel Clamp Wrench",
         weight = 1,
         stack = true,
-        close = true
+        close = true,
+        consume = 0,
     },
 
     ["wheel_clamp"] = {
         label = "Wheel Clamp",
         weight = 1,
         stack = true,
-        close = true
+        close = true,
+        consume = 0,
     },
 
 
@@ -148,7 +150,7 @@ local QB_ITEMS = {
     bodycam_tablet = { name = 'bodycam_tablet', label = 'Bodycam tablet', weight = 100, type = 'item', image = 'bodycam_tablet.png', unique = false, useable = true, shouldClose = true, description = '' },
     panic_button   = { name = 'panic_button', label = 'Panic Button', weight = 100, type = 'item', image = 'panic_button.png', unique = false, useable = true, shouldClose = true, description = '' },
     megaphone      = { name = 'megaphone', label = 'Megaphone', weight = 100, type = 'item', image = 'megaphone.png', unique = false, useable = true, shouldClose = true, description = '' },
-    paper_bag      = { name = 'paper_bag', label = 'Paper Bag', weight = 100, type = 'item', image = 'paper_bag.png', unique = false, useable = true, shouldClose = true, description = '' },
+    paper_bag_rcore = { name = 'paper_bag_rcore', label = 'Paper Bag', weight = 100, type = 'item', image = 'paper_bag_rcore.png', unique = false, useable = true, shouldClose = true, description = '' },
     zipties        = { name = 'zipties', label = 'Zip ties', weight = 100, type = 'item', image = 'zipties.png', unique = false, useable = true, shouldClose = true, description = '' },
     spikes         = { name = 'spikes', label = 'Spikes', weight = 100, type = 'item', image = 'spikes.png', unique = false, useable = true, shouldClose = true, description = '' },
     handcuffs_key  = { name = 'handcuffs_key', label = 'Handcuffs Key', weight = 100, type = 'item', image = 'handcuffs_key.png', unique = false, useable = true, shouldClose = true, description = '' },
@@ -322,11 +324,11 @@ local TGIANN_ITEMS = {
         weight = 100,
     },
 
-    paper_bag = {
+    paper_bag_rcore = {
         description = "A simple paper bag... perfect for some funny roleplay moments.",
-        image = "paper_bag.png",
+        image = "paper_bag_rcore.png",
         label = "Paper Bag",
-        name = "paper_bag",
+        name = "paper_bag_rcore",
         shouldClose = true,
         type = "item",
         unique = false,

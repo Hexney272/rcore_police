@@ -1,0 +1,24 @@
+local L0_1, L1_1, L2_1
+L0_1 = {}
+L0_1.Entity = nil
+L0_1.FrontEntity = nil
+L1_1 = {}
+L1_1.state = false
+L0_1.MegaPhone = L1_1
+L1_1 = {}
+L1_1.state = false
+L0_1.PaperBag = L1_1
+L1_1 = {}
+L1_1.TARGET_PLAYER_ESCORT_INITIATOR_STATE = false
+L1_1.TARGET_PLAYER_ESCORT_CITIZEN_STATE = false
+L0_1.Escort = L1_1
+L1_1 = {}
+L1_1.TARGET_PLAYER_CUFF_STATE = false
+L1_1.TARGET_PLAYER_ANIM_DICT = "anim@move_m@prisoner_cuffed"
+L1_1.TARGET_PLAYER_ANIM_DICT_NAME = "idle"
+L1_1.TARGET_PLAYER_MODEL = "p_cs_cuffs_02_s"
+L1_1.TARGET_PLAYER_BEING_CUFFED_ANIM_DICT = "mp_arrest_paired"
+L2_1 = "TARGET_PLAYER_BEING_CUFFED_ANIM_DICT_NAME"
+L1_1[L2_1] = "crook_p3"
+L0_1.Cuff = L1_1
+Interactions = L0_1
