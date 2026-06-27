@@ -227,6 +227,8 @@ CreateThread(function()
 
     if Config.Blips.Enable then
         RegisterListener("onGroups", function(action, member)
+            if not member then return end
+
             if action == "addMember" and Config.Blips.AutoSubscribe then
                 TrackerManager:subscribe(member.playerId)
             end
