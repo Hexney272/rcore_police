@@ -456,7 +456,7 @@ CreateThread(function()
 
             if serverJobs and next(serverJobs) then
                 for jobName, job in pairs(serverJobs) do
-                    if Config.JobGroups[jobName] and Config.JobGroups[jobName]?.Store then
+                    if Config.JobGroups[jobName] and Config.JobGroups[jobName].Store then
                         return
                     end
 

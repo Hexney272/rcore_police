@@ -5,27 +5,27 @@ function ConvertPlayerJobToStructure(data)
 
     if Config.Framework == Framework.ESX then
         retval = {
-            group = data?.name or 'none',
-            grade = data?.grade or 0,
-            grade_name = data?.grade_name or 'none',
+            group = (data and data.name) or 'none',
+            grade = (data and data.grade) or 0,
+            grade_name = (data and data.grade_name) or 'none',
         }
     elseif IS_QB[Config.Framework] then
         retval = {
-            group = data?.name or 'none',
-            grade = data?.grade_level or data.grade.level or 0,
-            grade_name = data?.grade_name or data.grade.name or 'none',
+            group = (data and data.name) or 'none',
+            grade = (data and data.grade_level) or data.grade.level or 0,
+            grade_name = (data and data.grade_name) or data.grade.name or 'none',
         }
     elseif Config.Framework == Framework.NDCore then
         retval = {
-            group = data?.name or 'none',
-            grade = data?.rank or 0,
-            grade_name = data?.gradeName or 'none',
+            group = (data and data.name) or 'none',
+            grade = (data and data.rank) or 0,
+            grade_name = (data and data.gradeName) or 'none',
         }
     else
         retval = {
-            group = data?.name or 'none',
-            grade = data?.grade or 0,
-            grade_name = data?.grade_name or 'none',
+            group = (data and data.name) or 'none',
+            grade = (data and data.grade) or 0,
+            grade_name = (data and data.grade_name) or 'none',
         }
     end
 
