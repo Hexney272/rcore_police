@@ -43,7 +43,7 @@ Config = {
         'MENU',
     },
 
-    Locale = 'en', -- Choose your language ['en']
+    Locale = 'hu', -- Choose your language ['en']
 
     -- ⚠️ Deployer system ⚠️
     -- ⚠️ Third party resources can be installed by using our Deployer system without any additional configuration. ⚠️
