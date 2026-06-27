@@ -1,464 +1,1780 @@
--- Shared Initialization for rcore_police
--- Sets up global tables, loads external libraries, defines core helpers,
--- initializes PoliceJobs, and optionally wraps event handlers with error reporting.
-
------------------------------------------------------------
--- Global State Tables
------------------------------------------------------------
-
-SH = {}
-Intervals = {}
-Maps = {}
-
------------------------------------------------------------
--- External Library Loading
------------------------------------------------------------
-
--- Load GLM (math library)
-glm = require("glm")
-
--- Load ox_lib if available
-if isResourceLoaded("ox_lib") then
-    local filePath = string.format("%s.lua", "init")
-    local fileContent = LoadResourceFile("ox_lib", filePath)
-    assert(load(fileContent, string.format("@@ox_lib/%s", filePath)))()
+local L0_1, L1_1, L2_1, L3_1, L4_1, L5_1, L6_1, L7_1, L8_1
+L0_1 = {}
+SH = L0_1
+L0_1 = {}
+Intervals = L0_1
+L0_1 = {}
+Maps = L0_1
+L0_1 = require
+L1_1 = "glm"
+L0_1 = L0_1(L1_1)
+glm = L0_1
+L0_1 = isResourceLoaded
+L1_1 = "ox_lib"
+L0_1 = L0_1(L1_1)
+if L0_1 then
+  L0_1 = "%s.lua"
+  L1_1 = L0_1
+  L0_1 = L0_1.format
+  L2_1 = "init"
+  L0_1 = L0_1(L1_1, L2_1)
+  L1_1 = LoadResourceFile
+  L2_1 = "ox_lib"
+  L3_1 = L0_1
+  L1_1 = L1_1(L2_1, L3_1)
+  L2_1 = assert
+  L3_1 = load
+  L4_1 = L1_1
+  L5_1 = "@@ox_lib/%s"
+  L6_1 = L5_1
+  L5_1 = L5_1.format
+  L7_1 = L0_1
+  L5_1, L6_1, L7_1, L8_1 = L5_1(L6_1, L7_1)
+  L3_1, L4_1, L5_1, L6_1, L7_1, L8_1 = L3_1(L4_1, L5_1, L6_1, L7_1, L8_1)
+  L2_1 = L2_1(L3_1, L4_1, L5_1, L6_1, L7_1, L8_1)
+  L3_1 = L2_1
+  L3_1()
 end
-
--- Load ND_Core if available
-if isResourceLoaded("ND_Core") then
-    local filePath = string.format("%s.lua", "init")
-    local fileContent = LoadResourceFile("ND_Core", filePath)
-    assert(load(fileContent, string.format("@@ND_Core/%s", filePath)))()
+L0_1 = isResourceLoaded
+L1_1 = "ND_Core"
+L0_1 = L0_1(L1_1)
+if L0_1 then
+  L0_1 = "%s.lua"
+  L1_1 = L0_1
+  L0_1 = L0_1.format
+  L2_1 = "init"
+  L0_1 = L0_1(L1_1, L2_1)
+  L1_1 = LoadResourceFile
+  L2_1 = "ND_Core"
+  L3_1 = L0_1
+  L1_1 = L1_1(L2_1, L3_1)
+  L2_1 = assert
+  L3_1 = load
+  L4_1 = L1_1
+  L5_1 = "@@ND_Core/%s"
+  L6_1 = L5_1
+  L5_1 = L5_1.format
+  L7_1 = L0_1
+  L5_1, L6_1, L7_1, L8_1 = L5_1(L6_1, L7_1)
+  L3_1, L4_1, L5_1, L6_1, L7_1, L8_1 = L3_1(L4_1, L5_1, L6_1, L7_1, L8_1)
+  L2_1 = L2_1(L3_1, L4_1, L5_1, L6_1, L7_1, L8_1)
+  L3_1 = L2_1
+  L3_1()
 end
-
------------------------------------------------------------
--- Core Helper Functions
------------------------------------------------------------
-
---- Check if an export exists in a resource without throwing errors
---- @param resourceName string The resource to check
---- @param exportName string The export name to look for
---- @return boolean Whether the export exists
-function doesExportExistInResource(resourceName, exportName)
-    local success, _ = xpcall(function()
-        local _ = exports[resourceName][exportName]
-    end, debug.traceback)
-    return success
+function L0_1(A0_2, A1_2)
+  local L2_2, L3_2, L4_2
+  L2_2 = xpcall
+  function L3_2()
+    local L0_3, L1_3
+    L0_3 = exports
+    L1_3 = A0_2
+    L0_3 = L0_3[L1_3]
+    L1_3 = A1_2
+    L0_3 = L0_3[L1_3]
+  end
+  L4_2 = debug
+  L4_2 = L4_2.traceback
+  L2_2, L3_2 = L2_2(L3_2, L4_2)
+  return L2_2
 end
-
---- Wait for a condition to become true with a timeout
---- @param conditionFn function Function that returns true when condition is met
---- @param timeout number Maximum time to wait in ms
---- @return boolean Whether the condition was met before timeout
-function WaitFor(conditionFn, timeout)
-    local elapsed = 0
-    local interval = 250
-
+doesExportExistInResource = L0_1
+function L0_1(A0_2, A1_2)
+  local L2_2, L3_2, L4_2, L5_2
+  L2_2 = 0
+  L3_2 = 250
+  while true do
+    L4_2 = A0_2
+    L4_2 = L4_2()
+    if L4_2 then
+      break
+    end
+    L4_2 = Wait
+    L5_2 = L3_2
+    L4_2(L5_2)
+    L2_2 = L2_2 + L3_2
+    if A1_2 <= L2_2 then
+      L4_2 = false
+      return L4_2
+    end
+  end
+  L4_2 = true
+  return L4_2
+end
+WaitFor = L0_1
+function L0_1(A0_2, A1_2)
+  local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2
+  function L2_2(A0_3)
+    local L1_3, L2_3, L3_3
+    L1_3 = type
+    L2_3 = A0_3
+    L1_3 = L1_3(L2_3)
+    L2_3 = A0_3
+    L1_3 = A0_3.match
+    L3_3 = "^_U%b()$"
+    L1_3 = L1_3(L2_3, L3_3)
+    if not L1_3 then
+      L2_3 = A0_3
+      L1_3 = A0_3.match
+      L3_3 = "^vec3%b()$"
+      L1_3 = L1_3(L2_3, L3_3)
+      if not L1_3 then
+        L2_3 = A0_3
+        L1_3 = A0_3.match
+        L3_3 = "^vector3%b()$"
+        L1_3 = L1_3(L2_3, L3_3)
+        if not L1_3 then
+          L2_3 = A0_3
+          L1_3 = A0_3.match
+          L3_3 = "^ZONE_TYPE%..+$"
+          L1_3 = L1_3(L2_3, L3_3)
+          if not L1_3 then
+            L2_3 = A0_3
+            L1_3 = A0_3.match
+            L3_3 = "^MAP_TYPES%..+$"
+            L1_3 = L1_3(L2_3, L3_3)
+            if not L1_3 then
+              L2_3 = A0_3
+              L1_3 = A0_3.match
+              L3_3 = "^MAPS%..+$"
+              L1_3 = "string" == L1_3 and L1_3
+            end
+          end
+        end
+      end
+    end
+    return L1_3
+  end
+  function L3_2(A0_3, A1_3)
+    local L2_3, L3_3, L4_3, L5_3, L6_3, L7_3, L8_3, L9_3, L10_3, L11_3, L12_3, L13_3, L14_3, L15_3, L16_3
+    L2_3 = type
+    L3_3 = A0_3
+    L2_3 = L2_3(L3_3)
+    if not A1_3 then
+      A1_3 = 1
+    end
+    L3_3 = string
+    L3_3 = L3_3.rep
+    L4_3 = "    "
+    L5_3 = A1_3
+    L3_3 = L3_3(L4_3, L5_3)
+    if "string" == L2_3 then
+      L4_3 = L2_2
+      L5_3 = A0_3
+      L4_3 = L4_3(L5_3)
+      if L4_3 then
+        return A0_3
+      else
+        L4_3 = string
+        L4_3 = L4_3.format
+        L5_3 = "%q"
+        L6_3 = A0_3
+        return L4_3(L5_3, L6_3)
+      end
+    elseif "number" == L2_3 or "boolean" == L2_3 then
+      L4_3 = tostring
+      L5_3 = A0_3
+      return L4_3(L5_3)
+    elseif "table" == L2_3 then
+      L4_3 = A0_3.x
+      if L4_3 then
+        L4_3 = A0_3.y
+        if L4_3 then
+          L4_3 = A0_3.z
+          if L4_3 then
+            L4_3 = string
+            L4_3 = L4_3.format
+            L5_3 = "vec3(%.6f, %.6f, %.6f)"
+            L6_3 = A0_3.x
+            L7_3 = A0_3.y
+            L8_3 = A0_3.z
+            return L4_3(L5_3, L6_3, L7_3, L8_3)
+          end
+        end
+      end
+      L4_3 = "{\n"
+      L5_3 = pairs
+      L6_3 = A0_3
+      L5_3, L6_3, L7_3, L8_3 = L5_3(L6_3)
+      for L9_3, L10_3 in L5_3, L6_3, L7_3, L8_3 do
+        L11_3 = type
+        L12_3 = L9_3
+        L11_3 = L11_3(L12_3)
+        if "string" == L11_3 then
+          L11_3 = string
+          L11_3 = L11_3.format
+          L12_3 = "%s%s = "
+          L13_3 = L3_3
+          L14_3 = L9_3
+          L11_3 = L11_3(L12_3, L13_3, L14_3)
+          if L11_3 then
+            goto lbl_82
+          end
+        end
+        L11_3 = string
+        L11_3 = L11_3.format
+        L12_3 = "%s[%s] = "
+        L13_3 = L3_3
+        L14_3 = tostring
+        L15_3 = L9_3
+        L14_3, L15_3, L16_3 = L14_3(L15_3)
+        L11_3 = L11_3(L12_3, L13_3, L14_3, L15_3, L16_3)
+        ::lbl_82::
+        L12_3 = L4_3
+        L13_3 = L11_3
+        L14_3 = L3_2
+        L15_3 = L10_3
+        L16_3 = A1_3 + 1
+        L14_3 = L14_3(L15_3, L16_3)
+        L15_3 = ",\n"
+        L12_3 = L12_3 .. L13_3 .. L14_3 .. L15_3
+        L4_3 = L12_3
+      end
+      L5_3 = L4_3
+      L6_3 = string
+      L6_3 = L6_3.rep
+      L7_3 = "    "
+      L8_3 = A1_3 - 1
+      L6_3 = L6_3(L7_3, L8_3)
+      L7_3 = "}"
+      L5_3 = L5_3 .. L6_3 .. L7_3
+      L4_3 = L5_3
+      return L4_3
+    else
+      L4_3 = string
+      L4_3 = L4_3.format
+      L5_3 = "%q"
+      L6_3 = tostring
+      L7_3 = A0_3 or L7_3
+      if not A0_3 then
+        L7_3 = "nil"
+      end
+      L6_3, L7_3, L8_3, L9_3, L10_3, L11_3, L12_3, L13_3, L14_3, L15_3, L16_3 = L6_3(L7_3)
+      return L4_3(L5_3, L6_3, L7_3, L8_3, L9_3, L10_3, L11_3, L12_3, L13_3, L14_3, L15_3, L16_3)
+    end
+  end
+  L4_2 = "CreateThread(function()\n"
+  L5_2 = L4_2
+  L6_2 = string
+  L6_2 = L6_2.format
+  L7_2 = "    Maps[%q] = %s\n"
+  L8_2 = tostring
+  L9_2 = A0_2
+  L8_2 = L8_2(L9_2)
+  L9_2 = L3_2
+  L10_2 = A1_2
+  L11_2 = 2
+  L9_2, L10_2, L11_2 = L9_2(L10_2, L11_2)
+  L6_2 = L6_2(L7_2, L8_2, L9_2, L10_2, L11_2)
+  L5_2 = L5_2 .. L6_2
+  L4_2 = L5_2
+  L5_2 = L4_2
+  L6_2 = "end)"
+  L5_2 = L5_2 .. L6_2
+  L4_2 = L5_2
+  return L4_2
+end
+dumpTableLuaCode = L0_1
+function L0_1(A0_2, A1_2)
+  local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2, L13_2, L14_2, L15_2, L16_2, L17_2, L18_2, L19_2, L20_2, L21_2
+  L2_2 = {}
+  L3_2 = {}
+  L4_2 = {}
+  L5_2 = 1
+  L6_2 = "{\n"
+  while true do
+    L7_2 = 0
+    L8_2 = pairs
+    L9_2 = A0_2
+    L8_2, L9_2, L10_2, L11_2 = L8_2(L9_2)
+    for L12_2, L13_2 in L8_2, L9_2, L10_2, L11_2 do
+      L7_2 = L7_2 + 1
+    end
+    L8_2 = 1
+    L9_2 = pairs
+    L10_2 = A0_2
+    L9_2, L10_2, L11_2, L12_2 = L9_2(L10_2)
+    for L13_2, L14_2 in L9_2, L10_2, L11_2, L12_2 do
+      L15_2 = L2_2[A0_2]
+      if nil ~= L15_2 then
+        L15_2 = L2_2[A0_2]
+        if not (L8_2 >= L15_2) then
+          goto lbl_211
+        end
+      end
+      L15_2 = string
+      L15_2 = L15_2.find
+      L16_2 = L6_2
+      L17_2 = "}"
+      L19_2 = L6_2
+      L18_2 = L6_2.len
+      L18_2, L19_2, L20_2, L21_2 = L18_2(L19_2)
+      L15_2 = L15_2(L16_2, L17_2, L18_2, L19_2, L20_2, L21_2)
+      if L15_2 then
+        L15_2 = L6_2
+        L16_2 = ",\n"
+        L15_2 = L15_2 .. L16_2
+        L6_2 = L15_2
+      else
+        L15_2 = string
+        L15_2 = L15_2.find
+        L16_2 = L6_2
+        L17_2 = "\n"
+        L19_2 = L6_2
+        L18_2 = L6_2.len
+        L18_2, L19_2, L20_2, L21_2 = L18_2(L19_2)
+        L15_2 = L15_2(L16_2, L17_2, L18_2, L19_2, L20_2, L21_2)
+        if not L15_2 then
+          L15_2 = L6_2
+          L16_2 = "\n"
+          L15_2 = L15_2 .. L16_2
+          L6_2 = L15_2
+        end
+      end
+      L15_2 = table
+      L15_2 = L15_2.insert
+      L16_2 = L4_2
+      L17_2 = L6_2
+      L15_2(L16_2, L17_2)
+      L6_2 = ""
+      L15_2 = nil
+      L16_2 = type
+      L17_2 = L13_2
+      L16_2 = L16_2(L17_2)
+      if "number" ~= L16_2 then
+        L16_2 = type
+        L17_2 = L13_2
+        L16_2 = L16_2(L17_2)
+        if "boolean" ~= L16_2 then
+          goto lbl_82
+        end
+      end
+      L16_2 = ""
+      L17_2 = tostring
+      L18_2 = L13_2
+      L17_2 = L17_2(L18_2)
+      L18_2 = ""
+      L16_2 = L16_2 .. L17_2 .. L18_2
+      L15_2 = L16_2
+      goto lbl_89
+      ::lbl_82::
+      L16_2 = ""
+      L17_2 = tostring
+      L18_2 = L13_2
+      L17_2 = L17_2(L18_2)
+      L18_2 = ""
+      L16_2 = L16_2 .. L17_2 .. L18_2
+      L15_2 = L16_2
+      ::lbl_89::
+      L16_2 = type
+      L17_2 = L14_2
+      L16_2 = L16_2(L17_2)
+      if "number" ~= L16_2 then
+        L16_2 = type
+        L17_2 = L14_2
+        L16_2 = L16_2(L17_2)
+        if "boolean" ~= L16_2 then
+          goto lbl_113
+        end
+      end
+      L16_2 = L6_2
+      L17_2 = string
+      L17_2 = L17_2.rep
+      L18_2 = "\t"
+      L19_2 = L5_2
+      L17_2 = L17_2(L18_2, L19_2)
+      L18_2 = L15_2
+      L19_2 = " = "
+      L20_2 = tostring
+      L21_2 = L14_2
+      L20_2 = L20_2(L21_2)
+      L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2 .. L20_2
+      L6_2 = L16_2
+      goto lbl_192
+      ::lbl_113::
+      L16_2 = type
+      L17_2 = L14_2
+      L16_2 = L16_2(L17_2)
+      if "table" == L16_2 then
+        L16_2 = type
+        L17_2 = L13_2
+        L16_2 = L16_2(L17_2)
+        if "number" == L16_2 then
+          L16_2 = L6_2
+          L17_2 = string
+          L17_2 = L17_2.rep
+          L18_2 = "\t"
+          L19_2 = L5_2
+          L17_2 = L17_2(L18_2, L19_2)
+          L18_2 = "{\n"
+          L16_2 = L16_2 .. L17_2 .. L18_2
+          L6_2 = L16_2
+        else
+          L16_2 = L6_2
+          L17_2 = string
+          L17_2 = L17_2.rep
+          L18_2 = "\t"
+          L19_2 = L5_2
+          L17_2 = L17_2(L18_2, L19_2)
+          L18_2 = L15_2
+          L19_2 = " = {\n"
+          L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2
+          L6_2 = L16_2
+        end
+        L16_2 = table
+        L16_2 = L16_2.insert
+        L17_2 = L3_2
+        L18_2 = A0_2
+        L16_2(L17_2, L18_2)
+        L16_2 = table
+        L16_2 = L16_2.insert
+        L17_2 = L3_2
+        L18_2 = L14_2
+        L16_2(L17_2, L18_2)
+        L16_2 = L8_2 + 1
+        L2_2[A0_2] = L16_2
+        break
+      else
+        L16_2 = type
+        L17_2 = L14_2
+        L16_2 = L16_2(L17_2)
+        if "vector3" == L16_2 then
+          L16_2 = L6_2
+          L17_2 = string
+          L17_2 = L17_2.rep
+          L18_2 = "\t"
+          L19_2 = L5_2
+          L17_2 = L17_2(L18_2, L19_2)
+          L18_2 = L15_2
+          L19_2 = " = "
+          L20_2 = tostring
+          L21_2 = L14_2
+          L20_2 = L20_2(L21_2)
+          L21_2 = ""
+          L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2 .. L20_2 .. L21_2
+          L6_2 = L16_2
+        else
+          L16_2 = L6_2
+          L17_2 = string
+          L17_2 = L17_2.rep
+          L18_2 = "\t"
+          L19_2 = L5_2
+          L17_2 = L17_2(L18_2, L19_2)
+          L18_2 = L15_2
+          L19_2 = " = '"
+          L20_2 = tostring
+          L21_2 = L14_2
+          L20_2 = L20_2(L21_2)
+          L21_2 = "'"
+          L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2 .. L20_2 .. L21_2
+          L6_2 = L16_2
+        end
+      end
+      ::lbl_192::
+      if L8_2 == L7_2 then
+        L16_2 = L6_2
+        L17_2 = "\n"
+        L18_2 = string
+        L18_2 = L18_2.rep
+        L19_2 = "\t"
+        L20_2 = L5_2 - 1
+        L18_2 = L18_2(L19_2, L20_2)
+        L19_2 = "}"
+        L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2
+        L6_2 = L16_2
+      else
+        L16_2 = L6_2
+        L17_2 = ","
+        L16_2 = L16_2 .. L17_2
+        L6_2 = L16_2
+        goto lbl_224
+        ::lbl_211::
+        if L8_2 == L7_2 then
+          L15_2 = L6_2
+          L16_2 = "\n"
+          L17_2 = string
+          L17_2 = L17_2.rep
+          L18_2 = "\t"
+          L19_2 = L5_2 - 1
+          L17_2 = L17_2(L18_2, L19_2)
+          L18_2 = "}"
+          L15_2 = L15_2 .. L16_2 .. L17_2 .. L18_2
+          L6_2 = L15_2
+        end
+      end
+      ::lbl_224::
+      L8_2 = L8_2 + 1
+    end
+    if 0 == L7_2 then
+      L9_2 = L6_2
+      L10_2 = "\n"
+      L11_2 = string
+      L11_2 = L11_2.rep
+      L12_2 = "\t"
+      L13_2 = L5_2 - 1
+      L11_2 = L11_2(L12_2, L13_2)
+      L12_2 = ""
+      L9_2 = L9_2 .. L10_2 .. L11_2 .. L12_2
+      L6_2 = L9_2
+    end
+    L9_2 = #L3_2
+    if not (L9_2 > 0) then
+      break
+    end
+    L9_2 = #L3_2
+    A0_2 = L3_2[L9_2]
+    L9_2 = #L3_2
+    L3_2[L9_2] = nil
+    L9_2 = L2_2[A0_2]
+    if nil == L9_2 then
+      L9_2 = L5_2 + 1
+      if L9_2 then
+        goto lbl_260
+        L5_2 = L9_2 or L5_2
+      end
+    end
+    L5_2 = L5_2 - 1
+    goto lbl_260
+    do break end
+    ::lbl_260::
+  end
+  L7_2 = table
+  L7_2 = L7_2.insert
+  L8_2 = L4_2
+  L9_2 = L6_2
+  L7_2(L8_2, L9_2)
+  L7_2 = table
+  L7_2 = L7_2.concat
+  L8_2 = L4_2
+  L7_2 = L7_2(L8_2)
+  L6_2 = L7_2
+  if not A1_2 then
+  end
+  return L6_2
+end
+dumpTable = L0_1
+function L0_1(A0_2, A1_2, A2_2)
+  local L3_2, L4_2, L5_2, L6_2, L7_2
+  if not A1_2 then
+    L3_2 = GetCurrentResourceName
+    L3_2 = L3_2()
+    A1_2 = L3_2
+  end
+  L3_2 = GetCurrentResourceName
+  L3_2 = L3_2()
+  if A1_2 ~= L3_2 then
+    L3_2 = dbg
+    L3_2 = L3_2.debugAPI
+    L4_2 = "Providing export emulation for export named: %s | resource: %s"
+    L5_2 = A0_2
+    L6_2 = A1_2
+    L3_2(L4_2, L5_2, L6_2)
+  end
+  L3_2 = AddEventHandler
+  L4_2 = "__cfx_export_%s_%s"
+  L5_2 = L4_2
+  L4_2 = L4_2.format
+  L6_2 = A1_2
+  L7_2 = A0_2
+  L4_2 = L4_2(L5_2, L6_2, L7_2)
+  function L5_2(A0_3)
+    local L1_3, L2_3, L3_3, L4_3
+    L1_3 = dbg
+    L1_3 = L1_3.debugAPI
+    L2_3 = "Emulator was called from %s | emulate-resource: %s"
+    L3_3 = GetInvokingResource
+    L3_3 = L3_3()
+    L4_3 = A1_2
+    L1_3(L2_3, L3_3, L4_3)
+    L1_3 = A0_3
+    L2_3 = A2_2
+    L1_3(L2_3)
+  end
+  L3_2(L4_2, L5_2)
+end
+provideExport = L0_1
+function L0_1(A0_2, A1_2, ...)
+  local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2
+  L2_2 = pcall
+  L3_2 = A0_2
+  L4_2, L5_2, L6_2, L7_2 = ...
+  L2_2, L3_2 = L2_2(L3_2, L4_2, L5_2, L6_2, L7_2)
+  if not L2_2 then
+    L4_2 = dbg
+    L4_2 = L4_2.critical
+    L5_2 = "Safe call for function named (%s) result: %s"
+    L6_2 = A1_2
+    L7_2 = L3_2
+    L4_2(L5_2, L6_2, L7_2)
+  end
+  L4_2 = L2_2
+  L5_2 = L3_2
+  return L4_2, L5_2
+end
+safeCallFunction = L0_1
+function L0_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2
+  L1_2 = {}
+  L2_2 = table
+  L2_2 = L2_2.insert
+  L3_2 = L1_2
+  L4_2 = "leo"
+  L2_2(L3_2, L4_2)
+  if A0_2 then
+    L2_2 = next
+    L3_2 = A0_2
+    L2_2 = L2_2(L3_2)
+    if L2_2 then
+      L2_2 = pairs
+      L3_2 = A0_2
+      L2_2, L3_2, L4_2, L5_2 = L2_2(L3_2)
+      for L6_2, L7_2 in L2_2, L3_2, L4_2, L5_2 do
+        L8_2 = table
+        L8_2 = L8_2.insert
+        L9_2 = L1_2
+        L10_2 = L6_2
+        L8_2(L9_2, L10_2)
+      end
+    end
+  end
+  return L1_2
+end
+extractJobNames = L0_1
+function L0_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2
+  L1_2 = GetNumResources
+  L1_2 = L1_2()
+  L2_2 = 0
+  L3_2 = L1_2 - 1
+  L4_2 = 1
+  for L5_2 = L2_2, L3_2, L4_2 do
+    L6_2 = GetResourceByFindIndex
+    L7_2 = L5_2
+    L6_2 = L6_2(L7_2)
+    if L6_2 == A0_2 then
+      L7_2 = GetResourceState
+      L8_2 = L6_2
+      L7_2 = L7_2(L8_2)
+      L8_2 = "started" == L7_2 or "starting" == L7_2
+      return L8_2
+    end
+  end
+  L2_2 = false
+  return L2_2
+end
+isResourcePresentProvideless = L0_1
+function L0_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2
+  L1_2 = GetNumResources
+  L1_2 = L1_2()
+  L2_2 = 0
+  L3_2 = L1_2 - 1
+  L4_2 = 1
+  for L5_2 = L2_2, L3_2, L4_2 do
+    L6_2 = GetResourceByFindIndex
+    L7_2 = L5_2
+    L6_2 = L6_2(L7_2)
+    L7_2 = string
+    L7_2 = L7_2.match
+    L8_2 = L6_2
+    L9_2 = A0_2
+    L7_2 = L7_2(L8_2, L9_2)
+    if L7_2 then
+      L8_2 = isResourcePresentProvideless
+      L9_2 = L6_2
+      L8_2 = L8_2(L9_2)
+      if L8_2 then
+        return L6_2
+      end
+    end
+  end
+end
+FindTargetResource = L0_1
+L0_1 = extractJobNames
+L1_1 = Config
+L1_1 = L1_1.JobGroups
+if not L1_1 then
+  L1_1 = {}
+end
+L0_1 = L0_1(L1_1)
+PoliceJobs = L0_1
+L0_1 = CreateThread
+function L1_1()
+  local L0_2, L1_2, L2_2, L3_2
+  L0_2 = Config
+  L0_2 = L0_2.Inventory
+  L1_2 = Inventory
+  L1_2 = L1_2.OX
+  if L0_2 == L1_2 then
+    L0_2 = Config
+    L0_2 = L0_2.Framework
+    L1_2 = Framework
+    L1_2 = L1_2.QBCore
+    if L0_2 == L1_2 then
+      L0_2 = GetResourceMetadata
+      L1_2 = Inventory
+      L1_2 = L1_2.OX
+      L2_2 = "version"
+      L3_2 = 0
+      L0_2 = L0_2(L1_2, L2_2, L3_2)
+      if L0_2 then
+        L1_2 = IsVersionEqual
+        L2_2 = L0_2
+        L3_2 = "2.41.0"
+        L1_2 = L1_2(L2_2, L3_2)
+        if L1_2 then
+          L1_2 = Config
+          L1_2 = L1_2.Cuffing
+          L1_2.DisableInventoryWhileCuffed = false
+        end
+      end
+    end
+  end
+end
+L0_1(L1_1)
+L0_1 = Config
+L0_1 = L0_1.DebugError
+if not L0_1 then
+  L0_1 = false
+end
+L1_1 = {}
+function L2_1(A0_2)
+  local L1_2, L2_2, L3_2
+  L1_2 = L0_1
+  if L1_2 then
+    L1_2 = L1_1
+    L2_2 = {}
+    L2_2.stepCount = 0
+    L3_2 = {}
+    L2_2.stepData = L3_2
+    L1_2[A0_2] = L2_2
+  end
+end
+StartDebugSession = L2_1
+function L2_1(A0_2)
+  local L1_2, L2_2
+  L1_2 = DisplayCurrentRecordSteps
+  L2_2 = A0_2
+  L1_2(L2_2)
+  L1_2 = L0_1
+  if L1_2 then
+    L1_2 = L1_1
+    L1_2[A0_2] = nil
+  end
+end
+DestroyDebugSession = L2_1
+function L2_1(A0_2, A1_2)
+  local L2_2, L3_2, L4_2
+  L2_2 = L0_1
+  if L2_2 then
+    L2_2 = L1_1
+    L2_2 = L2_2[A0_2]
+    if L2_2 then
+      L3_2 = L2_2.stepCount
+      L3_2 = L3_2 + 1
+      L2_2.stepCount = L3_2
+      L3_2 = L2_2.stepData
+      L4_2 = L2_2.stepCount
+      L3_2[L4_2] = A1_2
+    end
+  end
+end
+DebugRecordStep = L2_1
+function L2_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2
+  L1_2 = L0_1
+  if L1_2 then
+    L1_2 = L1_1
+    L1_2 = L1_2[A0_2]
+    if L1_2 then
+      L2_2 = ipairs
+      L3_2 = L1_2.stepData
+      L2_2, L3_2, L4_2, L5_2 = L2_2(L3_2)
+      for L6_2, L7_2 in L2_2, L3_2, L4_2, L5_2 do
+        L8_2 = print
+        L9_2 = "^0Step name: ^1"
+        L10_2 = tostring
+        L11_2 = L7_2
+        L10_2 = L10_2(L11_2)
+        L9_2 = L9_2 .. L10_2
+        L8_2(L9_2)
+      end
+      L2_2 = print
+      L3_2 = "^5=====^0"
+      L2_2(L3_2)
+      L2_2 = print
+      L3_2 = "^0Last step before the error: ^1"
+      L4_2 = tostring
+      L5_2 = L1_2.stepData
+      L6_2 = L1_2.stepData
+      L6_2 = #L6_2
+      L5_2 = L5_2[L6_2]
+      L4_2 = L4_2(L5_2)
+      L3_2 = L3_2 .. L4_2
+      L2_2(L3_2)
+    end
+  end
+end
+DisplayCurrentRecordSteps = L2_1
+if L0_1 then
+  L2_1 = AddEventHandler
+  L3_1 = RegisterNetEvent
+  L4_1 = CreateThread
+  L5_1 = RegisterCommand
+  L6_1 = RegisterNUICallback
+  function L7_1(A0_2, A1_2)
+    local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2, L13_2, L14_2, L15_2, L16_2, L17_2, L18_2, L19_2, L20_2, L21_2
+    L2_2 = {}
+    L3_2 = {}
+    L4_2 = {}
+    L5_2 = 1
+    L6_2 = "{\n"
     while true do
-        if conditionFn() then
-            break
+      L7_2 = 0
+      L8_2 = pairs
+      L9_2 = A0_2
+      L8_2, L9_2, L10_2, L11_2 = L8_2(L9_2)
+      for L12_2, L13_2 in L8_2, L9_2, L10_2, L11_2 do
+        L7_2 = L7_2 + 1
+      end
+      L8_2 = 1
+      L9_2 = pairs
+      L10_2 = A0_2
+      L9_2, L10_2, L11_2, L12_2 = L9_2(L10_2)
+      for L13_2, L14_2 in L9_2, L10_2, L11_2, L12_2 do
+        L15_2 = L2_2[A0_2]
+        if nil ~= L15_2 then
+          L15_2 = L2_2[A0_2]
+          if not (L8_2 >= L15_2) then
+            goto lbl_176
+          end
         end
-
-        Wait(interval)
-        elapsed = elapsed + interval
-
-        if timeout <= elapsed then
-            return false
-        end
-    end
-
-    return true
-end
-
---- Dump a table to Lua code for map preset export
---- @param mapName string The map identifier
---- @param mapData table The map data table
---- @return string Lua code string that recreates the map data
-function dumpTableLuaCode(mapName, mapData)
-    -- Helper: check if a string value is a known global reference (not to be quoted)
-    local function isGlobalReference(str)
-        return str:match("^_U%b()$")
-            or str:match("^vec3%b()$")
-            or str:match("^vector3%b()$")
-            or str:match("^ZONE_TYPE%..+$")
-            or str:match("^MAP_TYPES%..+$")
-            or str:match("^MAPS%..+$")
-    end
-
-    -- Helper: serialize a value to Lua code string
-    local function serializeValue(value, indentLevel)
-        local valueType = type(value)
-        if not indentLevel then indentLevel = 1 end
-        local indent = string.rep("    ", indentLevel)
-
-        if valueType == "string" then
-            if isGlobalReference(value) then
-                return value
-            else
-                return string.format("%q", value)
-            end
-        elseif valueType == "number" or valueType == "boolean" then
-            return tostring(value)
-        elseif valueType == "table" then
-            -- Check if it's a vec3
-            if value.x and value.y and value.z then
-                return string.format("vec3(%.6f, %.6f, %.6f)", value.x, value.y, value.z)
-            end
-
-            local result = "{\n"
-            for k, v in pairs(value) do
-                local keyStr
-                if type(k) == "string" then
-                    keyStr = string.format("%s%s = ", indent, k)
-                else
-                    keyStr = string.format("%s[%s] = ", indent, tostring(k))
-                end
-                result = result .. keyStr .. serializeValue(v, indentLevel + 1) .. ",\n"
-            end
-            result = result .. string.rep("    ", indentLevel - 1) .. "}"
-            return result
+        L15_2 = string
+        L15_2 = L15_2.find
+        L16_2 = L6_2
+        L17_2 = "}"
+        L19_2 = L6_2
+        L18_2 = L6_2.len
+        L18_2, L19_2, L20_2, L21_2 = L18_2(L19_2)
+        L15_2 = L15_2(L16_2, L17_2, L18_2, L19_2, L20_2, L21_2)
+        if L15_2 then
+          L15_2 = L6_2
+          L16_2 = ",\n"
+          L15_2 = L15_2 .. L16_2
+          L6_2 = L15_2
         else
-            return string.format("%q", tostring(value or "nil"))
+          L15_2 = string
+          L15_2 = L15_2.find
+          L16_2 = L6_2
+          L17_2 = "\n"
+          L19_2 = L6_2
+          L18_2 = L6_2.len
+          L18_2, L19_2, L20_2, L21_2 = L18_2(L19_2)
+          L15_2 = L15_2(L16_2, L17_2, L18_2, L19_2, L20_2, L21_2)
+          if not L15_2 then
+            L15_2 = L6_2
+            L16_2 = "\n"
+            L15_2 = L15_2 .. L16_2
+            L6_2 = L15_2
+          end
         end
-    end
-
-    local code = "CreateThread(function()\n"
-    code = code .. string.format("    Maps[%q] = %s\n", tostring(mapName), serializeValue(mapData, 2))
-    code = code .. "end)"
-    return code
-end
-
---- Same as dumpTable in sh-utils (kept for compatibility as it's redefined here)
---- @param tbl table The table to dump
---- @param silent boolean|nil If true, don't print
---- @return string Formatted string representation
-function dumpTable(tbl, silent)
-    -- This is a duplicate of the dumpTable in sh-utils.lua
-    -- Kept for load-order compatibility (sh-init loads after sh-utils and overrides it)
-    local result = dumpTable(tbl, silent)
-    return result
-end
-
---- Provide (emulate) an export from another resource
---- Used for backward compatibility with resources like qb-policejob
---- @param exportName string The export name to provide
---- @param resourceName string|nil The resource name to emulate (defaults to current resource)
---- @param callback function The function to expose as the export
-function provideExport(exportName, resourceName, callback)
-    if not resourceName then
-        resourceName = GetCurrentResourceName()
-    end
-
-    if resourceName ~= GetCurrentResourceName() then
-        dbg.debugAPI("Providing export emulation for export named: %s | resource: %s", exportName, resourceName)
-    end
-
-    AddEventHandler(string.format("__cfx_export_%s_%s", resourceName, exportName), function(setCB)
-        dbg.debugAPI("Emulator was called from %s | emulate-resource: %s", GetInvokingResource(), resourceName)
-        setCB(callback)
-    end)
-end
-
---- Safely call a function with error handling
---- @param fn function The function to call
---- @param fnName string Name for debug logging
---- @param ... any Arguments to pass to the function
---- @return boolean success Whether the call succeeded
---- @return any result The return value or error message
-function safeCallFunction(fn, fnName, ...)
-    local success, result = pcall(fn, ...)
-
-    if not success then
-        dbg.critical("Safe call for function named (%s) result: %s", fnName, result)
-    end
-
-    return success, result
-end
-
---- Extract job names from Config.JobGroups table
---- Always includes "leo" as a base job name
---- @param jobGroups table|nil The JobGroups config table
---- @return table Array of job name strings
-function extractJobNames(jobGroups)
-    local jobs = {}
-    table.insert(jobs, "leo")
-
-    if jobGroups and next(jobGroups) then
-        for jobName, _ in pairs(jobGroups) do
-            table.insert(jobs, jobName)
+        L15_2 = table
+        L15_2 = L15_2.insert
+        L16_2 = L4_2
+        L17_2 = L6_2
+        L15_2(L16_2, L17_2)
+        L6_2 = ""
+        L15_2 = nil
+        L16_2 = type
+        L17_2 = L13_2
+        L16_2 = L16_2(L17_2)
+        if "number" ~= L16_2 then
+          L16_2 = type
+          L17_2 = L13_2
+          L16_2 = L16_2(L17_2)
+          if "boolean" ~= L16_2 then
+            goto lbl_82
+          end
         end
-    end
-
-    return jobs
-end
-
---- Check if a resource is present and started (without checking 'provides')
---- Iterates all resources by index to find exact name match
---- @param resourceName string The resource name to find
---- @return boolean Whether the resource is present and running
-function isResourcePresentProvideless(resourceName)
-    local numResources = GetNumResources()
-
-    for i = 0, numResources - 1 do
-        local name = GetResourceByFindIndex(i)
-        if name == resourceName then
-            local state = GetResourceState(name)
-            return state == "started" or state == "starting"
+        L16_2 = "["
+        L17_2 = tostring
+        L18_2 = L13_2
+        L17_2 = L17_2(L18_2)
+        L18_2 = "]"
+        L16_2 = L16_2 .. L17_2 .. L18_2
+        L15_2 = L16_2
+        goto lbl_89
+        ::lbl_82::
+        L16_2 = "['"
+        L17_2 = tostring
+        L18_2 = L13_2
+        L17_2 = L17_2(L18_2)
+        L18_2 = "']"
+        L16_2 = L16_2 .. L17_2 .. L18_2
+        L15_2 = L16_2
+        ::lbl_89::
+        L16_2 = type
+        L17_2 = L14_2
+        L16_2 = L16_2(L17_2)
+        if "number" ~= L16_2 then
+          L16_2 = type
+          L17_2 = L14_2
+          L16_2 = L16_2(L17_2)
+          if "boolean" ~= L16_2 then
+            goto lbl_113
+          end
         end
-    end
-
-    return false
-end
-
---- Find a resource by pattern matching its name
---- @param pattern string Lua pattern to match against resource names
---- @return string|nil The first matching resource name that is running
-function FindTargetResource(pattern)
-    local numResources = GetNumResources()
-
-    for i = 0, numResources - 1 do
-        local name = GetResourceByFindIndex(i)
-        if string.match(name, pattern) then
-            if isResourcePresentProvideless(name) then
-                return name
-            end
-        end
-    end
-end
-
------------------------------------------------------------
--- Police Jobs Initialization
------------------------------------------------------------
-
-PoliceJobs = extractJobNames(Config.JobGroups or {})
-
------------------------------------------------------------
--- OX Inventory + QBCore Version Compatibility Fix
------------------------------------------------------------
-
-CreateThread(function()
-    -- Disable DisableInventoryWhileCuffed for ox_inventory v2.41.0 on QBCore
-    -- due to known invBusy statebag bugs in that specific version
-    if Config.Inventory == Inventory.OX then
-        if Config.Framework == Framework.QBCore then
-            local oxVersion = GetResourceMetadata(Inventory.OX, "version", 0)
-            if oxVersion then
-                if IsVersionEqual(oxVersion, "2.41.0") then
-                    Config.Cuffing.DisableInventoryWhileCuffed = false
-                end
-            end
-        end
-    end
-end)
-
------------------------------------------------------------
--- Debug Session System (for DebugError mode)
------------------------------------------------------------
-
-local debugErrorEnabled = Config.DebugError or false
-local debugSessions = {}
-
---- Start a debug session for tracking execution steps
---- @param sessionName string Unique session identifier
-function StartDebugSession(sessionName)
-    if debugErrorEnabled then
-        debugSessions[sessionName] = {
-            stepCount = 0,
-            stepData = {}
-        }
-    end
-end
-
---- Destroy a debug session and display its recorded steps
---- @param sessionName string The session to destroy
-function DestroyDebugSession(sessionName)
-    DisplayCurrentRecordSteps(sessionName)
-    if debugErrorEnabled then
-        debugSessions[sessionName] = nil
-    end
-end
-
---- Record a step in a debug session
---- @param sessionName string The session identifier
---- @param stepName string Description of the step
-function DebugRecordStep(sessionName, stepName)
-    if debugErrorEnabled then
-        local session = debugSessions[sessionName]
-        if session then
-            session.stepCount = session.stepCount + 1
-            session.stepData[session.stepCount] = stepName
-        end
-    end
-end
-
---- Display all recorded steps for a debug session
---- @param sessionName string The session identifier
-function DisplayCurrentRecordSteps(sessionName)
-    if debugErrorEnabled then
-        local session = debugSessions[sessionName]
-        if session then
-            for _, step in ipairs(session.stepData) do
-                print("^0Step name: ^1" .. tostring(step))
-            end
-            print("^5=====^0")
-            print("^0Last step before the error: ^1" .. tostring(session.stepData[#session.stepData]))
-        end
-    end
-end
-
------------------------------------------------------------
--- Error Wrapper System (only active when Config.DebugError = true)
--- Overrides: RegisterCommand, RegisterNetEvent, RegisterNUICallback,
---            CreateThread, AddEventHandler with xpcall wrappers
------------------------------------------------------------
-
-if debugErrorEnabled then
-    local _originalAddEventHandler = AddEventHandler
-    local _originalRegisterNetEvent = RegisterNetEvent
-    local _originalCreateThread = CreateThread
-    local _originalRegisterCommand = RegisterCommand
-    local _originalRegisterNUICallback = RegisterNUICallback
-
-    --- Helper: format arguments for replication display
-    local function formatDebugArgs(tbl, dumpFn)
-        local str = ""
-        for i = 1, 12 do
-            local v = tbl[i]
-            if type(v) == "table" then
-                str = str .. dumpFn(v, true) .. ","
-            elseif type(v) == "string" then
-                str = str .. "'" .. v .. "',"
-            else
-                str = str .. tostring(v) .. ","
-            end
-        end
-        return str
-    end
-
-    --- Helper: print error details for a wrapped handler
-    local function printErrorDetails(handlerType, eventName, args, traceback, dumpFn)
-        print("^5=========================^0")
-        print("^2Error in: ^1" .. handlerType .. "^0")
-        print("^2Event name: ^1" .. eventName .. "^0")
-        print("^5=========================^0")
-        DisplayCurrentRecordSteps(eventName)
-        print("^5=========================^0")
-
-        for idx, arg in pairs(args) do
-            print("^0Argument key: ^1" .. idx)
-            print("^0Argument value type: ^1" .. type(arg))
-            print(" ")
-            if type(arg) == "table" then
-                print("^0Argument value: ^1" .. tostring(arg))
-                dumpFn(arg)
-            else
-                print("^0Argument value: ^1" .. tostring(arg))
-            end
-            print("^5=====^0")
-        end
-
-        print("^5=========================^0")
-        print(traceback)
-        print("^5=========================^0")
-
-        -- Print replication command
-        local argsStr = formatDebugArgs(args, dumpFn)
-        argsStr = argsStr:gsub("\n", ""):sub(1, -2)
-
-        print("^0Replication trigger event:")
-        if handlerType == "RegisterNUICallback" then
-            print("^1TriggerEvent('__cfx_nui:" .. eventName .. "', " .. argsStr .. ")")
+        L16_2 = L6_2
+        L17_2 = string
+        L17_2 = L17_2.rep
+        L18_2 = "\t"
+        L19_2 = L5_2
+        L17_2 = L17_2(L18_2, L19_2)
+        L18_2 = L15_2
+        L19_2 = " = "
+        L20_2 = tostring
+        L21_2 = L14_2
+        L20_2 = L20_2(L21_2)
+        L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2 .. L20_2
+        L6_2 = L16_2
+        goto lbl_157
+        ::lbl_113::
+        L16_2 = type
+        L17_2 = L14_2
+        L16_2 = L16_2(L17_2)
+        if "table" == L16_2 then
+          L16_2 = L6_2
+          L17_2 = string
+          L17_2 = L17_2.rep
+          L18_2 = "\t"
+          L19_2 = L5_2
+          L17_2 = L17_2(L18_2, L19_2)
+          L18_2 = L15_2
+          L19_2 = " = {\n"
+          L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2
+          L6_2 = L16_2
+          L16_2 = table
+          L16_2 = L16_2.insert
+          L17_2 = L3_2
+          L18_2 = A0_2
+          L16_2(L17_2, L18_2)
+          L16_2 = table
+          L16_2 = L16_2.insert
+          L17_2 = L3_2
+          L18_2 = L14_2
+          L16_2(L17_2, L18_2)
+          L16_2 = L8_2 + 1
+          L2_2[A0_2] = L16_2
+          break
         else
-            print("^1TriggerEvent('" .. eventName .. "', " .. argsStr .. ")")
+          L16_2 = L6_2
+          L17_2 = string
+          L17_2 = L17_2.rep
+          L18_2 = "\t"
+          L19_2 = L5_2
+          L17_2 = L17_2(L18_2, L19_2)
+          L18_2 = L15_2
+          L19_2 = " = '"
+          L20_2 = tostring
+          L21_2 = L14_2
+          L20_2 = L20_2(L21_2)
+          L21_2 = "'"
+          L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2 .. L20_2 .. L21_2
+          L6_2 = L16_2
         end
-        print("^5=========================^0")
-    end
-
-    --- Debug dumpTable for error display (with bracket-style keys)
-    local function debugDumpTable(tbl, silent)
-        -- Simplified dump for error display (reuses dumpTable logic with bracket keys)
-        local result = dumpTable(tbl, true)
-        if not silent then
-            print(result)
+        ::lbl_157::
+        if L8_2 == L7_2 then
+          L16_2 = L6_2
+          L17_2 = "\n"
+          L18_2 = string
+          L18_2 = L18_2.rep
+          L19_2 = "\t"
+          L20_2 = L5_2 - 1
+          L18_2 = L18_2(L19_2, L20_2)
+          L19_2 = "}"
+          L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2
+          L6_2 = L16_2
+        else
+          L16_2 = L6_2
+          L17_2 = ","
+          L16_2 = L16_2 .. L17_2
+          L6_2 = L16_2
+          goto lbl_189
+          ::lbl_176::
+          if L8_2 == L7_2 then
+            L15_2 = L6_2
+            L16_2 = "\n"
+            L17_2 = string
+            L17_2 = L17_2.rep
+            L18_2 = "\t"
+            L19_2 = L5_2 - 1
+            L17_2 = L17_2(L18_2, L19_2)
+            L18_2 = "}"
+            L15_2 = L15_2 .. L16_2 .. L17_2 .. L18_2
+            L6_2 = L15_2
+          end
         end
-        return result
-    end
-
-    -- Override RegisterCommand
-    RegisterCommand = function(commandName, callback)
-        _originalRegisterCommand(commandName, function(source, args, rawCommand)
-            local success, err = xpcall(function()
-                callback(source, args, rawCommand)
-            end, debug.traceback)
-
-            if not success then
-                printErrorDetails("RegisterCommand", commandName, {source, args, rawCommand}, err, debugDumpTable)
-            end
-        end)
-    end
-
-    -- Override RegisterNetEvent
-    RegisterNetEvent = function(eventName, callback)
-        if not callback then
-            _originalRegisterNetEvent(eventName)
-            return
+        ::lbl_189::
+        L8_2 = L8_2 + 1
+      end
+      if 0 == L7_2 then
+        L9_2 = L6_2
+        L10_2 = "\n"
+        L11_2 = string
+        L11_2 = L11_2.rep
+        L12_2 = "\t"
+        L13_2 = L5_2 - 1
+        L11_2 = L11_2(L12_2, L13_2)
+        L12_2 = "}"
+        L9_2 = L9_2 .. L10_2 .. L11_2 .. L12_2
+        L6_2 = L9_2
+      end
+      L9_2 = #L3_2
+      if not (L9_2 > 0) then
+        break
+      end
+      L9_2 = #L3_2
+      A0_2 = L3_2[L9_2]
+      L9_2 = #L3_2
+      L3_2[L9_2] = nil
+      L9_2 = L2_2[A0_2]
+      if nil == L9_2 then
+        L9_2 = L5_2 + 1
+        if L9_2 then
+          goto lbl_225
+          L5_2 = L9_2 or L5_2
         end
-
-        _originalRegisterNetEvent(eventName, function(...)
-            local args = {...}
-            local success, err = xpcall(function()
-                callback(...)
-            end, debug.traceback)
-
-            if not success then
-                printErrorDetails("RegisterNetEvent", eventName, args, err, debugDumpTable)
-            end
-        end)
+      end
+      L5_2 = L5_2 - 1
+      goto lbl_225
+      do break end
+      ::lbl_225::
     end
-
-    -- Override RegisterNUICallback
-    RegisterNUICallback = function(callbackName, callback)
-        _originalRegisterNUICallback(callbackName, function(...)
-            local args = {...}
-            local success, err = xpcall(function()
-                callback(...)
-            end, debug.traceback)
-
-            if not success then
-                printErrorDetails("RegisterNUICallback", callbackName, args, err, debugDumpTable)
-            end
-        end)
+    L7_2 = table
+    L7_2 = L7_2.insert
+    L8_2 = L4_2
+    L9_2 = L6_2
+    L7_2(L8_2, L9_2)
+    L7_2 = table
+    L7_2 = L7_2.concat
+    L8_2 = L4_2
+    L7_2 = L7_2(L8_2)
+    L6_2 = L7_2
+    if not A1_2 then
+      L7_2 = print
+      L8_2 = L6_2
+      L7_2(L8_2)
     end
-
-    -- Override CreateThread
-    CreateThread = function(callback, label)
-        _originalCreateThread(function()
-            local success, err = xpcall(callback, debug.traceback)
-
-            if not success then
-                print("=========================")
-                print("^2Error in: ^1CreateThread^0")
-                print("^1" .. (label or "non defined") .. "^0")
-                print("=========================")
-                DisplayCurrentRecordSteps(label)
-                print("^5=========================^0")
-                print(err)
-                print("=========================")
-            end
-        end)
+    return L6_2
+  end
+  function L8_1(A0_2, A1_2)
+    local L2_2, L3_2, L4_2
+    L2_2 = L5_1
+    L3_2 = A0_2
+    function L4_2(A0_3, A1_3, A2_3)
+      local L3_3, L4_3, L5_3, L6_3, L7_3, L8_3, L9_3, L10_3, L11_3, L12_3, L13_3, L14_3, L15_3
+      L3_3 = xpcall
+      function L4_3()
+        local L0_4, L1_4, L2_4, L3_4
+        L0_4 = A1_2
+        L1_4 = A0_3
+        L2_4 = A1_3
+        L3_4 = A2_3
+        L0_4(L1_4, L2_4, L3_4)
+      end
+      L5_3 = debug
+      L5_3 = L5_3.traceback
+      L3_3, L4_3 = L3_3(L4_3, L5_3)
+      if not L3_3 then
+        L5_3 = {}
+        L5_3[1] = A0_3
+        L5_3[2] = A1_3
+        L5_3[3] = A2_3
+        L6_3 = print
+        L7_3 = "^5=========================^0"
+        L6_3(L7_3)
+        L6_3 = print
+        L7_3 = "^2Error in: ^1RegisterCommand^0"
+        L6_3(L7_3)
+        L6_3 = print
+        L7_3 = "^2Event name: ^1"
+        L8_3 = A0_2
+        L9_3 = "^0"
+        L7_3 = L7_3 .. L8_3 .. L9_3
+        L6_3(L7_3)
+        L6_3 = print
+        L7_3 = "^5=========================^0"
+        L6_3(L7_3)
+        L6_3 = DisplayCurrentRecordSteps
+        L7_3 = A0_2
+        L6_3(L7_3)
+        L6_3 = print
+        L7_3 = "^5=========================^0"
+        L6_3(L7_3)
+        L6_3 = pairs
+        L7_3 = L5_3
+        L6_3, L7_3, L8_3, L9_3 = L6_3(L7_3)
+        for L10_3, L11_3 in L6_3, L7_3, L8_3, L9_3 do
+          L12_3 = print
+          L13_3 = "^0Argument key: ^1"
+          L14_3 = L10_3
+          L13_3 = L13_3 .. L14_3
+          L12_3(L13_3)
+          L12_3 = print
+          L13_3 = "^0Argument value type: ^1"
+          L14_3 = type
+          L15_3 = L11_3
+          L14_3 = L14_3(L15_3)
+          L13_3 = L13_3 .. L14_3
+          L12_3(L13_3)
+          L12_3 = print
+          L13_3 = " "
+          L12_3(L13_3)
+          L12_3 = type
+          L13_3 = L11_3
+          L12_3 = L12_3(L13_3)
+          if "table" == L12_3 then
+            L12_3 = print
+            L13_3 = "^0Argument value: ^1"
+            L14_3 = tostring
+            L15_3 = L11_3
+            L14_3 = L14_3(L15_3)
+            L13_3 = L13_3 .. L14_3
+            L12_3(L13_3)
+            L12_3 = L7_1
+            L13_3 = L11_3
+            L12_3(L13_3)
+          else
+            L12_3 = print
+            L13_3 = "^0Argument value: ^1"
+            L14_3 = tostring
+            L15_3 = L11_3
+            L14_3 = L14_3(L15_3)
+            L13_3 = L13_3 .. L14_3
+            L12_3(L13_3)
+          end
+          L12_3 = print
+          L13_3 = "^5=====^0"
+          L12_3(L13_3)
+        end
+        L6_3 = print
+        L7_3 = "^5=========================^0"
+        L6_3(L7_3)
+        L6_3 = print
+        L7_3 = L4_3
+        L6_3(L7_3)
+        L6_3 = print
+        L7_3 = "^5=========================^0"
+        L6_3(L7_3)
+      end
     end
-
-    -- Override AddEventHandler
-    AddEventHandler = function(eventName, callback)
-        _originalAddEventHandler(eventName, function(...)
-            local args = {...}
-            local success, err = xpcall(function()
-                callback(...)
-            end, debug.traceback)
-
-            if not success then
-                printErrorDetails("AddEventHandler", eventName, args, err, debugDumpTable)
-            end
-        end)
+    L2_2(L3_2, L4_2)
+  end
+  RegisterCommand = L8_1
+  function L8_1(A0_2, A1_2)
+    local L2_2, L3_2, L4_2
+    if not A1_2 then
+      L2_2 = L3_1
+      L3_2 = A0_2
+      L2_2(L3_2)
+      return
     end
+    L2_2 = L3_1
+    L3_2 = A0_2
+    function L4_2(A0_3, A1_3, A2_3, A3_3, A4_3, A5_3, A6_3, A7_3, A8_3, A9_3, A10_3, A11_3)
+      local L12_3, L13_3, L14_3, L15_3, L16_3, L17_3, L18_3, L19_3, L20_3, L21_3, L22_3, L23_3, L24_3
+      L12_3 = xpcall
+      function L13_3()
+        local L0_4, L1_4, L2_4, L3_4, L4_4, L5_4, L6_4, L7_4, L8_4, L9_4, L10_4, L11_4, L12_4
+        L0_4 = A1_2
+        L1_4 = A0_3
+        L2_4 = A1_3
+        L3_4 = A2_3
+        L4_4 = A3_3
+        L5_4 = A4_3
+        L6_4 = A5_3
+        L7_4 = A6_3
+        L8_4 = A7_3
+        L9_4 = A8_3
+        L10_4 = A9_3
+        L11_4 = A10_3
+        L12_4 = A11_3
+        L0_4(L1_4, L2_4, L3_4, L4_4, L5_4, L6_4, L7_4, L8_4, L9_4, L10_4, L11_4, L12_4)
+      end
+      L14_3 = debug
+      L14_3 = L14_3.traceback
+      L12_3, L13_3 = L12_3(L13_3, L14_3)
+      if not L12_3 then
+        L14_3 = {}
+        L14_3[1] = A0_3
+        L14_3[2] = A1_3
+        L14_3[3] = A2_3
+        L14_3[4] = A3_3
+        L14_3[5] = A4_3
+        L14_3[6] = A5_3
+        L14_3[7] = A6_3
+        L14_3[8] = A7_3
+        L14_3[9] = A8_3
+        L14_3[10] = A9_3
+        L14_3[11] = A10_3
+        L14_3[12] = A11_3
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^2Error in: ^1RegisterNetEvent^0"
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^2Event name: ^1"
+        L17_3 = A0_2
+        L18_3 = "^0"
+        L16_3 = L16_3 .. L17_3 .. L18_3
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = DisplayCurrentRecordSteps
+        L16_3 = A0_2
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = pairs
+        L16_3 = L14_3
+        L15_3, L16_3, L17_3, L18_3 = L15_3(L16_3)
+        for L19_3, L20_3 in L15_3, L16_3, L17_3, L18_3 do
+          L21_3 = print
+          L22_3 = "^0Argument key: ^1"
+          L23_3 = L19_3
+          L22_3 = L22_3 .. L23_3
+          L21_3(L22_3)
+          L21_3 = print
+          L22_3 = "^0Argument value type: ^1"
+          L23_3 = type
+          L24_3 = L20_3
+          L23_3 = L23_3(L24_3)
+          L22_3 = L22_3 .. L23_3
+          L21_3(L22_3)
+          L21_3 = print
+          L22_3 = " "
+          L21_3(L22_3)
+          L21_3 = type
+          L22_3 = L20_3
+          L21_3 = L21_3(L22_3)
+          if "table" == L21_3 then
+            L21_3 = print
+            L22_3 = "^0Argument value: ^1"
+            L23_3 = tostring
+            L24_3 = L20_3
+            L23_3 = L23_3(L24_3)
+            L22_3 = L22_3 .. L23_3
+            L21_3(L22_3)
+            L21_3 = L7_1
+            L22_3 = L20_3
+            L21_3(L22_3)
+          else
+            L21_3 = print
+            L22_3 = "^0Argument value: ^1"
+            L23_3 = tostring
+            L24_3 = L20_3
+            L23_3 = L23_3(L24_3)
+            L22_3 = L22_3 .. L23_3
+            L21_3(L22_3)
+          end
+          L21_3 = print
+          L22_3 = "^5=====^0"
+          L21_3(L22_3)
+        end
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = L13_3
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = ""
+        L16_3 = 1
+        L17_3 = 12
+        L18_3 = 1
+        for L19_3 = L16_3, L17_3, L18_3 do
+          L20_3 = L14_3[L19_3]
+          L21_3 = type
+          L22_3 = L20_3
+          L21_3 = L21_3(L22_3)
+          if "table" == L21_3 then
+            L21_3 = L15_3
+            L22_3 = L7_1
+            L23_3 = L20_3
+            L24_3 = true
+            L22_3 = L22_3(L23_3, L24_3)
+            L23_3 = ","
+            L21_3 = L21_3 .. L22_3 .. L23_3
+            L15_3 = L21_3
+          else
+            L21_3 = type
+            L22_3 = L20_3
+            L21_3 = L21_3(L22_3)
+            if "string" == L21_3 then
+              L21_3 = L15_3
+              L22_3 = "'"
+              L23_3 = L20_3
+              L24_3 = "',"
+              L21_3 = L21_3 .. L22_3 .. L23_3 .. L24_3
+              L15_3 = L21_3
+            else
+              L21_3 = L15_3
+              L22_3 = tostring
+              L23_3 = L20_3
+              L22_3 = L22_3(L23_3)
+              L23_3 = ","
+              L21_3 = L21_3 .. L22_3 .. L23_3
+              L15_3 = L21_3
+            end
+          end
+        end
+        L16_3 = print
+        L17_3 = "^0Replication trigger event:"
+        L16_3(L17_3)
+        L16_3 = print
+        L17_3 = "^1TriggerEvent('"
+        L18_3 = A0_2
+        L19_3 = "', "
+        L21_3 = L15_3
+        L20_3 = L15_3.gsub
+        L22_3 = "\n"
+        L23_3 = ""
+        L20_3 = L20_3(L21_3, L22_3, L23_3)
+        L21_3 = L20_3
+        L20_3 = L20_3.sub
+        L22_3 = 1
+        L23_3 = -2
+        L20_3 = L20_3(L21_3, L22_3, L23_3)
+        L21_3 = ")"
+        L17_3 = L17_3 .. L18_3 .. L19_3 .. L20_3 .. L21_3
+        L16_3(L17_3)
+        L16_3 = print
+        L17_3 = "^5=========================^0"
+        L16_3(L17_3)
+      end
+    end
+    L2_2(L3_2, L4_2)
+  end
+  RegisterNetEvent = L8_1
+  function L8_1(A0_2, A1_2)
+    local L2_2, L3_2, L4_2
+    L2_2 = L6_1
+    L3_2 = A0_2
+    function L4_2(A0_3, A1_3, A2_3, A3_3, A4_3, A5_3, A6_3, A7_3, A8_3, A9_3, A10_3, A11_3)
+      local L12_3, L13_3, L14_3, L15_3, L16_3, L17_3, L18_3, L19_3, L20_3, L21_3, L22_3, L23_3, L24_3
+      L12_3 = xpcall
+      function L13_3()
+        local L0_4, L1_4, L2_4, L3_4, L4_4, L5_4, L6_4, L7_4, L8_4, L9_4, L10_4, L11_4, L12_4
+        L0_4 = A1_2
+        L1_4 = A0_3
+        L2_4 = A1_3
+        L3_4 = A2_3
+        L4_4 = A3_3
+        L5_4 = A4_3
+        L6_4 = A5_3
+        L7_4 = A6_3
+        L8_4 = A7_3
+        L9_4 = A8_3
+        L10_4 = A9_3
+        L11_4 = A10_3
+        L12_4 = A11_3
+        L0_4(L1_4, L2_4, L3_4, L4_4, L5_4, L6_4, L7_4, L8_4, L9_4, L10_4, L11_4, L12_4)
+      end
+      L14_3 = debug
+      L14_3 = L14_3.traceback
+      L12_3, L13_3 = L12_3(L13_3, L14_3)
+      if not L12_3 then
+        L14_3 = {}
+        L14_3[1] = A0_3
+        L14_3[2] = A1_3
+        L14_3[3] = A2_3
+        L14_3[4] = A3_3
+        L14_3[5] = A4_3
+        L14_3[6] = A5_3
+        L14_3[7] = A6_3
+        L14_3[8] = A7_3
+        L14_3[9] = A8_3
+        L14_3[10] = A9_3
+        L14_3[11] = A10_3
+        L14_3[12] = A11_3
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^2Error in: ^1RegisterNUICallback^0"
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^2Event name: ^1"
+        L17_3 = A0_2
+        L18_3 = "^0"
+        L16_3 = L16_3 .. L17_3 .. L18_3
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = DisplayCurrentRecordSteps
+        L16_3 = A0_2
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = pairs
+        L16_3 = L14_3
+        L15_3, L16_3, L17_3, L18_3 = L15_3(L16_3)
+        for L19_3, L20_3 in L15_3, L16_3, L17_3, L18_3 do
+          L21_3 = print
+          L22_3 = "^0Argument key: ^1"
+          L23_3 = L19_3
+          L22_3 = L22_3 .. L23_3
+          L21_3(L22_3)
+          L21_3 = print
+          L22_3 = "^0Argument value type: ^1"
+          L23_3 = type
+          L24_3 = L20_3
+          L23_3 = L23_3(L24_3)
+          L22_3 = L22_3 .. L23_3
+          L21_3(L22_3)
+          L21_3 = print
+          L22_3 = " "
+          L21_3(L22_3)
+          L21_3 = type
+          L22_3 = L20_3
+          L21_3 = L21_3(L22_3)
+          if "table" == L21_3 then
+            L21_3 = print
+            L22_3 = "^0Argument value: ^1"
+            L23_3 = tostring
+            L24_3 = L20_3
+            L23_3 = L23_3(L24_3)
+            L22_3 = L22_3 .. L23_3
+            L21_3(L22_3)
+            L21_3 = L7_1
+            L22_3 = L20_3
+            L21_3(L22_3)
+          else
+            L21_3 = print
+            L22_3 = "^0Argument value: ^1"
+            L23_3 = tostring
+            L24_3 = L20_3
+            L23_3 = L23_3(L24_3)
+            L22_3 = L22_3 .. L23_3
+            L21_3(L22_3)
+          end
+          L21_3 = print
+          L22_3 = "^5=====^0"
+          L21_3(L22_3)
+        end
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = L13_3
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = ""
+        L16_3 = 1
+        L17_3 = 12
+        L18_3 = 1
+        for L19_3 = L16_3, L17_3, L18_3 do
+          L20_3 = L14_3[L19_3]
+          L21_3 = type
+          L22_3 = L20_3
+          L21_3 = L21_3(L22_3)
+          if "table" == L21_3 then
+            L21_3 = L15_3
+            L22_3 = L7_1
+            L23_3 = L20_3
+            L24_3 = true
+            L22_3 = L22_3(L23_3, L24_3)
+            L23_3 = ","
+            L21_3 = L21_3 .. L22_3 .. L23_3
+            L15_3 = L21_3
+          else
+            L21_3 = type
+            L22_3 = L20_3
+            L21_3 = L21_3(L22_3)
+            if "string" == L21_3 then
+              L21_3 = L15_3
+              L22_3 = "'"
+              L23_3 = L20_3
+              L24_3 = "',"
+              L21_3 = L21_3 .. L22_3 .. L23_3 .. L24_3
+              L15_3 = L21_3
+            else
+              L21_3 = L15_3
+              L22_3 = tostring
+              L23_3 = L20_3
+              L22_3 = L22_3(L23_3)
+              L23_3 = ","
+              L21_3 = L21_3 .. L22_3 .. L23_3
+              L15_3 = L21_3
+            end
+          end
+        end
+        L16_3 = print
+        L17_3 = "^0Replication trigger event:"
+        L16_3(L17_3)
+        L16_3 = print
+        L17_3 = "^1TriggerEvent('__cfx_nui:"
+        L18_3 = A0_2
+        L19_3 = "', "
+        L21_3 = L15_3
+        L20_3 = L15_3.gsub
+        L22_3 = "\n"
+        L23_3 = ""
+        L20_3 = L20_3(L21_3, L22_3, L23_3)
+        L21_3 = L20_3
+        L20_3 = L20_3.sub
+        L22_3 = 1
+        L23_3 = -2
+        L20_3 = L20_3(L21_3, L22_3, L23_3)
+        L21_3 = ")"
+        L17_3 = L17_3 .. L18_3 .. L19_3 .. L20_3 .. L21_3
+        L16_3(L17_3)
+        L16_3 = print
+        L17_3 = "^5=========================^0"
+        L16_3(L17_3)
+      end
+    end
+    L2_2(L3_2, L4_2)
+  end
+  RegisterNUICallback = L8_1
+  function L8_1(A0_2, A1_2)
+    local L2_2, L3_2
+    L2_2 = L4_1
+    function L3_2()
+      local L0_3, L1_3, L2_3, L3_3, L4_3, L5_3
+      L0_3 = xpcall
+      L1_3 = A0_2
+      L2_3 = debug
+      L2_3 = L2_3.traceback
+      L0_3, L1_3 = L0_3(L1_3, L2_3)
+      if not L0_3 then
+        L2_3 = print
+        L3_3 = "========================="
+        L2_3(L3_3)
+        L2_3 = print
+        L3_3 = "^2Error in: ^1CreateThread^0"
+        L2_3(L3_3)
+        L2_3 = print
+        L3_3 = "^1"
+        L4_3 = A1_2
+        if not L4_3 then
+          L4_3 = "non defined"
+        end
+        L5_3 = "^0"
+        L3_3 = L3_3 .. L4_3 .. L5_3
+        L2_3(L3_3)
+        L2_3 = print
+        L3_3 = "========================="
+        L2_3(L3_3)
+        L2_3 = DisplayCurrentRecordSteps
+        L3_3 = A1_2
+        L2_3(L3_3)
+        L2_3 = print
+        L3_3 = "^5=========================^0"
+        L2_3(L3_3)
+        L2_3 = print
+        L3_3 = L1_3
+        L2_3(L3_3)
+        L2_3 = print
+        L3_3 = "========================="
+        L2_3(L3_3)
+      end
+    end
+    L2_2(L3_2)
+  end
+  CreateThread = L8_1
+  function L8_1(A0_2, A1_2)
+    local L2_2, L3_2, L4_2
+    L2_2 = L2_1
+    L3_2 = A0_2
+    function L4_2(A0_3, A1_3, A2_3, A3_3, A4_3, A5_3, A6_3, A7_3, A8_3, A9_3, A10_3, A11_3)
+      local L12_3, L13_3, L14_3, L15_3, L16_3, L17_3, L18_3, L19_3, L20_3, L21_3, L22_3, L23_3, L24_3
+      L12_3 = xpcall
+      function L13_3()
+        local L0_4, L1_4, L2_4, L3_4, L4_4, L5_4, L6_4, L7_4, L8_4, L9_4, L10_4, L11_4, L12_4
+        L0_4 = A1_2
+        L1_4 = A0_3
+        L2_4 = A1_3
+        L3_4 = A2_3
+        L4_4 = A3_3
+        L5_4 = A4_3
+        L6_4 = A5_3
+        L7_4 = A6_3
+        L8_4 = A7_3
+        L9_4 = A8_3
+        L10_4 = A9_3
+        L11_4 = A10_3
+        L12_4 = A11_3
+        L0_4(L1_4, L2_4, L3_4, L4_4, L5_4, L6_4, L7_4, L8_4, L9_4, L10_4, L11_4, L12_4)
+      end
+      L14_3 = debug
+      L14_3 = L14_3.traceback
+      L12_3, L13_3 = L12_3(L13_3, L14_3)
+      if not L12_3 then
+        L14_3 = {}
+        L14_3[1] = A0_3
+        L14_3[2] = A1_3
+        L14_3[3] = A2_3
+        L14_3[4] = A3_3
+        L14_3[5] = A4_3
+        L14_3[6] = A5_3
+        L14_3[7] = A6_3
+        L14_3[8] = A7_3
+        L14_3[9] = A8_3
+        L14_3[10] = A9_3
+        L14_3[11] = A10_3
+        L14_3[12] = A11_3
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^2Error in: ^1AddEventHandler^0"
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^2Event name: ^1"
+        L17_3 = A0_2
+        L18_3 = "^0"
+        L16_3 = L16_3 .. L17_3 .. L18_3
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = DisplayCurrentRecordSteps
+        L16_3 = A0_2
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = pairs
+        L16_3 = L14_3
+        L15_3, L16_3, L17_3, L18_3 = L15_3(L16_3)
+        for L19_3, L20_3 in L15_3, L16_3, L17_3, L18_3 do
+          L21_3 = print
+          L22_3 = "^0Argument key: ^1"
+          L23_3 = L19_3
+          L22_3 = L22_3 .. L23_3
+          L21_3(L22_3)
+          L21_3 = print
+          L22_3 = "^0Argument value type: ^1"
+          L23_3 = type
+          L24_3 = L20_3
+          L23_3 = L23_3(L24_3)
+          L22_3 = L22_3 .. L23_3
+          L21_3(L22_3)
+          L21_3 = print
+          L22_3 = " "
+          L21_3(L22_3)
+          L21_3 = type
+          L22_3 = L20_3
+          L21_3 = L21_3(L22_3)
+          if "table" == L21_3 then
+            L21_3 = print
+            L22_3 = "^0Argument value: ^1"
+            L23_3 = tostring
+            L24_3 = L20_3
+            L23_3 = L23_3(L24_3)
+            L22_3 = L22_3 .. L23_3
+            L21_3(L22_3)
+            L21_3 = L7_1
+            L22_3 = L20_3
+            L21_3(L22_3)
+          else
+            L21_3 = print
+            L22_3 = "^0Argument value: ^1"
+            L23_3 = tostring
+            L24_3 = L20_3
+            L23_3 = L23_3(L24_3)
+            L22_3 = L22_3 .. L23_3
+            L21_3(L22_3)
+          end
+          L21_3 = print
+          L22_3 = "^5=====^0"
+          L21_3(L22_3)
+        end
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = L13_3
+        L15_3(L16_3)
+        L15_3 = print
+        L16_3 = "^5=========================^0"
+        L15_3(L16_3)
+        L15_3 = ""
+        L16_3 = 1
+        L17_3 = 12
+        L18_3 = 1
+        for L19_3 = L16_3, L17_3, L18_3 do
+          L20_3 = L14_3[L19_3]
+          L21_3 = type
+          L22_3 = L20_3
+          L21_3 = L21_3(L22_3)
+          if "table" == L21_3 then
+            L21_3 = L15_3
+            L22_3 = L7_1
+            L23_3 = L20_3
+            L24_3 = true
+            L22_3 = L22_3(L23_3, L24_3)
+            L23_3 = ","
+            L21_3 = L21_3 .. L22_3 .. L23_3
+            L15_3 = L21_3
+          else
+            L21_3 = type
+            L22_3 = L20_3
+            L21_3 = L21_3(L22_3)
+            if "string" == L21_3 then
+              L21_3 = L15_3
+              L22_3 = "'"
+              L23_3 = L20_3
+              L24_3 = "',"
+              L21_3 = L21_3 .. L22_3 .. L23_3 .. L24_3
+              L15_3 = L21_3
+            else
+              L21_3 = L15_3
+              L22_3 = tostring
+              L23_3 = L20_3
+              L22_3 = L22_3(L23_3)
+              L23_3 = ","
+              L21_3 = L21_3 .. L22_3 .. L23_3
+              L15_3 = L21_3
+            end
+          end
+        end
+        L16_3 = print
+        L17_3 = "^0Replication trigger event:"
+        L16_3(L17_3)
+        L16_3 = print
+        L17_3 = "^1TriggerEvent('"
+        L18_3 = A0_2
+        L19_3 = "', "
+        L21_3 = L15_3
+        L20_3 = L15_3.gsub
+        L22_3 = "\n"
+        L23_3 = ""
+        L20_3 = L20_3(L21_3, L22_3, L23_3)
+        L21_3 = L20_3
+        L20_3 = L20_3.sub
+        L22_3 = 1
+        L23_3 = -2
+        L20_3 = L20_3(L21_3, L22_3, L23_3)
+        L21_3 = ")"
+        L17_3 = L17_3 .. L18_3 .. L19_3 .. L20_3 .. L21_3
+        L16_3(L17_3)
+        L16_3 = print
+        L17_3 = "^5=========================^0"
+        L16_3(L17_3)
+      end
+    end
+    L2_2(L3_2, L4_2)
+  end
+  AddEventHandler = L8_1
 end

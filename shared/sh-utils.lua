@@ -1,765 +1,1497 @@
--- Shared utility functions for rcore_police
--- Used on both client and server side
-
------------------------------------------------------------
--- Resource State Checking
------------------------------------------------------------
-
---- Check if a resource is loaded (started or starting)
---- @param resourceName string The resource name to check
---- @return boolean Whether the resource is loaded
-function isResourceLoaded(resourceName)
-    if resourceName == NONE_RESOURCE then
-        return true
+local L0_1, L1_1, L2_1
+function L0_1(A0_2)
+  local L1_2, L2_2
+  L1_2 = NONE_RESOURCE
+  if A0_2 == L1_2 then
+    L1_2 = true
+    return L1_2
+  end
+  if "null" == A0_2 or nil == A0_2 then
+    L1_2 = false
+    return L1_2
+  end
+  L1_2 = GetResourceState
+  L2_2 = A0_2
+  L1_2 = L1_2(L2_2)
+  L2_2 = "started" == L1_2 or "starting" == L1_2
+  return L2_2
+end
+isResourceLoaded = L0_1
+function L0_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2
+  L2_2 = A0_2
+  L1_2 = A0_2.gsub
+  L3_2 = "^%l"
+  L4_2 = string
+  L4_2 = L4_2.upper
+  return L1_2(L2_2, L3_2, L4_2)
+end
+c = L0_1
+function L0_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2
+  L1_2 = {}
+  L2_2 = string
+  L2_2 = L2_2.gmatch
+  L3_2 = A0_2
+  L4_2 = "%d+"
+  L2_2, L3_2, L4_2, L5_2 = L2_2(L3_2, L4_2)
+  for L6_2 in L2_2, L3_2, L4_2, L5_2 do
+    L7_2 = table
+    L7_2 = L7_2.insert
+    L8_2 = L1_2
+    L9_2 = tonumber
+    L10_2 = L6_2
+    L9_2, L10_2 = L9_2(L10_2)
+    L7_2(L8_2, L9_2, L10_2)
+  end
+  return L1_2
+end
+sVersion = L0_1
+function L0_1(A0_2, A1_2)
+  local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2
+  L2_2 = sVersion
+  L3_2 = A0_2
+  L2_2 = L2_2(L3_2)
+  L3_2 = sVersion
+  L4_2 = A1_2
+  L3_2 = L3_2(L4_2)
+  L4_2 = math
+  L4_2 = L4_2.max
+  L5_2 = #L2_2
+  L6_2 = #L3_2
+  L4_2 = L4_2(L5_2, L6_2)
+  L5_2 = 1
+  L6_2 = L4_2
+  L7_2 = 1
+  for L8_2 = L5_2, L6_2, L7_2 do
+    L9_2 = L2_2[L8_2]
+    if not L9_2 then
+      L9_2 = 0
     end
-
-    if resourceName == "null" or resourceName == nil then
-        return false
+    L10_2 = L3_2[L8_2]
+    if not L10_2 then
+      L10_2 = 0
     end
-
-    local state = GetResourceState(resourceName)
-    return state == "started" or state == "starting"
-end
-
------------------------------------------------------------
--- String Utilities
------------------------------------------------------------
-
---- Capitalize the first letter of a string
---- @param str string Input string
---- @return string String with first letter capitalized
-function c(str)
-    return str:gsub("^%l", string.upper)
-end
-
---- Parse a version string into a table of numbers
---- @param versionStr string Version string like "1.2.3"
---- @return table Array of version numbers
-function sVersion(versionStr)
-    local parts = {}
-    for num in string.gmatch(versionStr, "%d+") do
-        table.insert(parts, tonumber(num))
+    if L9_2 ~= L10_2 then
+      L11_2 = false
+      return L11_2
     end
-    return parts
+  end
+  L5_2 = true
+  return L5_2
 end
-
---- Check if two version strings are equal
---- @param version1 string First version string
---- @param version2 string Second version string
---- @return boolean Whether versions are equal
-function IsVersionEqual(version1, version2)
-    local v1 = sVersion(version1)
-    local v2 = sVersion(version2)
-    local maxLen = math.max(#v1, #v2)
-
-    for i = 1, maxLen do
-        local a = v1[i] or 0
-        local b = v2[i] or 0
-        if a ~= b then
-            return false
-        end
+IsVersionEqual = L0_1
+function L0_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2
+  L1_2 = print
+  L2_2 = json
+  L2_2 = L2_2.encode
+  L3_2 = A0_2
+  L4_2 = {}
+  L4_2.indent = true
+  L2_2, L3_2, L4_2 = L2_2(L3_2, L4_2)
+  return L1_2(L2_2, L3_2, L4_2)
+end
+tprint = L0_1
+function L0_1(A0_2, A1_2, ...)
+  local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2
+  L2_2 = print
+  L3_2 = string
+  L3_2 = L3_2.format
+  L4_2 = "%s %s"
+  L5_2 = A1_2
+  L7_2 = A0_2
+  L6_2 = A0_2.format
+  L8_2 = ...
+  L6_2, L7_2, L8_2 = L6_2(L7_2, L8_2)
+  L3_2, L4_2, L5_2, L6_2, L7_2, L8_2 = L3_2(L4_2, L5_2, L6_2, L7_2, L8_2)
+  L2_2(L3_2, L4_2, L5_2, L6_2, L7_2, L8_2)
+end
+afprint = L0_1
+function L0_1(A0_2, A1_2, ...)
+  local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2
+  L2_2 = print
+  L3_2 = string
+  L3_2 = L3_2.format
+  L4_2 = "%s %s"
+  L5_2 = A1_2
+  L7_2 = A0_2
+  L6_2 = A0_2.format
+  L8_2 = ...
+  L6_2, L7_2, L8_2 = L6_2(L7_2, L8_2)
+  L3_2, L4_2, L5_2, L6_2, L7_2, L8_2 = L3_2(L4_2, L5_2, L6_2, L7_2, L8_2)
+  L2_2(L3_2, L4_2, L5_2, L6_2, L7_2, L8_2)
+end
+fprint = L0_1
+function L0_1(A0_2, ...)
+  local L1_2, L2_2, L3_2
+  L1_2 = string
+  L1_2 = L1_2.format
+  L2_2 = A0_2
+  L3_2 = ...
+  return L1_2(L2_2, L3_2)
+end
+sprint = L0_1
+function L0_1(A0_2)
+  local L1_2, L2_2, L3_2
+  L1_2 = A0_2 or nil
+  if A0_2 then
+    L2_2 = A0_2
+    L1_2 = A0_2.match
+    L3_2 = "^%d+$"
+    L1_2 = L1_2(L2_2, L3_2)
+    L1_2 = nil ~= L1_2
+  end
+  return L1_2
+end
+isNumber = L0_1
+function L0_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2
+  L1_2 = Config
+  L1_2 = L1_2.SelectPlayers
+  L1_2 = L1_2.ShowMode
+  L2_2 = L1_2
+  L1_2 = L1_2.upper
+  L1_2 = L1_2(L2_2)
+  L2_2 = nil
+  if not L1_2 then
+    L3_2 = SHOW_MODE
+    L1_2 = L3_2.ID
+  end
+  L3_2 = SHOW_MODE
+  L3_2 = L3_2.ID
+  if L1_2 == L3_2 then
+    L3_2 = "%s: #%s"
+    L4_2 = L3_2
+    L3_2 = L3_2.format
+    L5_2 = _U
+    L6_2 = "SELECT_PLAYERS.PLAYER"
+    L5_2 = L5_2(L6_2)
+    L6_2 = A0_2
+    L3_2 = L3_2(L4_2, L5_2, L6_2)
+    L2_2 = L3_2
+  else
+    L3_2 = SHOW_MODE
+    L3_2 = L3_2.OOC_ID
+    if L1_2 == L3_2 then
+      L3_2 = "%s: %s #%s"
+      L4_2 = L3_2
+      L3_2 = L3_2.format
+      L5_2 = _U
+      L6_2 = "SELECT_PLAYERS.PLAYER"
+      L5_2 = L5_2(L6_2)
+      L6_2 = GetPlayerName
+      L7_2 = A0_2
+      L6_2 = L6_2(L7_2)
+      L7_2 = A0_2
+      L3_2 = L3_2(L4_2, L5_2, L6_2, L7_2)
+      L2_2 = L3_2
     end
-
-    return true
+  end
+  return L2_2
 end
-
---- Print a table as pretty JSON
---- @param tbl table The table to print
-function tprint(tbl)
-    print(json.encode(tbl, { indent = true }))
+getPlayerLabelByShowMode = L0_1
+function L0_1(A0_2)
+  local L1_2, L2_2
+  L1_2 = Config
+  L1_2 = L1_2.Props
+  L1_2 = L1_2.SpeedCamera
+  L1_2 = L1_2.SpeedType
+  L2_2 = L1_2
+  L1_2 = L1_2.upper
+  L1_2 = L1_2(L2_2)
+  if "MPH" == L1_2 then
+    L2_2 = A0_2 * 2.236936
+    return L2_2
+  elseif "KMH" == L1_2 then
+    L2_2 = A0_2 * 3.6
+    return L2_2
+  else
+    return A0_2
+  end
 end
-
---- Formatted print with prefix (level prefix + formatted message)
---- @param fmt string Format string
---- @param prefix string Level prefix (e.g. Levels.INFO)
---- @param ... any Format arguments
-function afprint(fmt, prefix, ...)
-    print(string.format("%s %s", prefix, fmt:format(...)))
+getVehicleSpeed = L0_1
+L0_1 = table
+function L1_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2
+  L1_2 = 0
+  L2_2 = pairs
+  L3_2 = A0_2
+  L2_2, L3_2, L4_2, L5_2 = L2_2(L3_2)
+  for L6_2, L7_2 in L2_2, L3_2, L4_2, L5_2 do
+    L1_2 = L1_2 + 1
+  end
+  return L1_2
 end
-
---- Formatted print with prefix (same as afprint)
---- @param fmt string Format string
---- @param prefix string Level prefix
---- @param ... any Format arguments
-function fprint(fmt, prefix, ...)
-    print(string.format("%s %s", prefix, fmt:format(...)))
-end
-
---- Simple string format wrapper
---- @param fmt string Format string
---- @param ... any Format arguments
---- @return string Formatted string
-function sprint(fmt, ...)
-    return string.format(fmt, ...)
-end
-
---- Check if a string value represents a number
---- @param value string The value to check
---- @return boolean Whether the value is numeric
-function isNumber(value)
-    if value then
-        return value:match("^%d+$") ~= nil
+L0_1.len = L1_1
+L0_1 = table
+function L1_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2
+  L1_2 = type
+  L2_2 = A0_2
+  L1_2 = L1_2(L2_2)
+  L2_2 = nil
+  if "table" == L1_2 then
+    L3_2 = {}
+    L2_2 = L3_2
+    L3_2 = next
+    L4_2 = A0_2
+    L5_2 = nil
+    L6_2 = nil
+    for L7_2, L8_2 in L3_2, L4_2, L5_2, L6_2 do
+      L9_2 = table
+      L9_2 = L9_2.deepcopy
+      L10_2 = L7_2
+      L9_2 = L9_2(L10_2)
+      L10_2 = table
+      L10_2 = L10_2.deepcopy
+      L11_2 = L8_2
+      L10_2 = L10_2(L11_2)
+      L2_2[L9_2] = L10_2
     end
-    return false
+    L3_2 = setmetatable
+    L4_2 = L2_2
+    L5_2 = table
+    L5_2 = L5_2.deepcopy
+    L6_2 = getmetatable
+    L7_2 = A0_2
+    L6_2, L7_2, L8_2, L9_2, L10_2, L11_2 = L6_2(L7_2)
+    L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2 = L5_2(L6_2, L7_2, L8_2, L9_2, L10_2, L11_2)
+    L3_2(L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2)
+  else
+    L2_2 = A0_2
+  end
+  return L2_2
 end
-
------------------------------------------------------------
--- Player Display
------------------------------------------------------------
-
---- Get a formatted player label based on the configured ShowMode
---- @param playerId number The player server ID
---- @return string|nil Formatted label string
-function getPlayerLabelByShowMode(playerId)
-    local mode = Config.SelectPlayers.ShowMode
-    mode = mode:upper()
-    local label = nil
-
-    if not mode then
-        mode = SHOW_MODE.ID
+L0_1.deepcopy = L1_1
+function L0_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2
+  L1_2 = type
+  L2_2 = A0_2
+  L1_2 = L1_2(L2_2)
+  L2_2 = nil
+  if "table" == L1_2 then
+    L3_2 = {}
+    L2_2 = L3_2
+    L3_2 = next
+    L4_2 = A0_2
+    L5_2 = nil
+    L6_2 = nil
+    for L7_2, L8_2 in L3_2, L4_2, L5_2, L6_2 do
+      L9_2 = L0_1
+      L10_2 = L7_2
+      L9_2 = L9_2(L10_2)
+      L10_2 = L0_1
+      L11_2 = L8_2
+      L10_2 = L10_2(L11_2)
+      L2_2[L9_2] = L10_2
     end
-
-    if mode == SHOW_MODE.ID then
-        label = string.format("%s: #%s", _U("SELECT_PLAYERS.PLAYER"), playerId)
-    elseif mode == SHOW_MODE.OOC_ID then
-        label = string.format("%s: %s #%s", _U("SELECT_PLAYERS.PLAYER"), GetPlayerName(playerId), playerId)
-    end
-
-    return label
+    L3_2 = setmetatable
+    L4_2 = L2_2
+    L5_2 = L0_1
+    L6_2 = getmetatable
+    L7_2 = A0_2
+    L6_2, L7_2, L8_2, L9_2, L10_2, L11_2 = L6_2(L7_2)
+    L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2 = L5_2(L6_2, L7_2, L8_2, L9_2, L10_2, L11_2)
+    L3_2(L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2)
+  else
+    L2_2 = A0_2
+  end
+  return L2_2
 end
-
------------------------------------------------------------
--- Vehicle Speed
------------------------------------------------------------
-
---- Convert native speed to configured speed type (MPH/KMH)
---- @param nativeSpeed number The native GTA speed value
---- @return number Converted speed value
-function getVehicleSpeed(nativeSpeed)
-    local speedType = Config.Props.SpeedCamera.SpeedType:upper()
-
-    if speedType == "MPH" then
-        return nativeSpeed * 2.236936
-    elseif speedType == "KMH" then
-        return nativeSpeed * 3.6
+L1_1 = table
+function L2_1(A0_2, A1_2)
+  local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2
+  L2_2 = L0_1
+  L3_2 = A0_2
+  L2_2 = L2_2(L3_2)
+  L3_2 = pairs
+  L4_2 = A1_2
+  L3_2, L4_2, L5_2, L6_2 = L3_2(L4_2)
+  for L7_2, L8_2 in L3_2, L4_2, L5_2, L6_2 do
+    L9_2 = type
+    L10_2 = L8_2
+    L9_2 = L9_2(L10_2)
+    if "table" == L9_2 then
+      L9_2 = type
+      L10_2 = L2_2[L7_2]
+      L9_2 = L9_2(L10_2)
+      if "table" == L9_2 then
+        L9_2 = table
+        L9_2 = L9_2.merge
+        L10_2 = L2_2[L7_2]
+        L11_2 = L8_2
+        L9_2 = L9_2(L10_2, L11_2)
+        L2_2[L7_2] = L9_2
+    end
     else
-        return nativeSpeed
+      L9_2 = L0_1
+      L10_2 = L8_2
+      L9_2 = L9_2(L10_2)
+      L2_2[L7_2] = L9_2
     end
+  end
+  return L2_2
 end
-
------------------------------------------------------------
--- Table Extensions
------------------------------------------------------------
-
---- Count the number of entries in a table (works with non-sequential keys)
---- @param tbl table The table to count
---- @return number Number of entries
-function table.len(tbl)
-    local count = 0
-    for _, _ in pairs(tbl) do
-        count = count + 1
-    end
-    return count
+L1_1.merge = L2_1
+function L1_1(A0_2, A1_2)
+  local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2, L13_2, L14_2
+  L2_2 = {}
+  L3_2 = pairs
+  L4_2 = A0_2
+  L3_2, L4_2, L5_2, L6_2 = L3_2(L4_2)
+  for L7_2, L8_2 in L3_2, L4_2, L5_2, L6_2 do
+    L9_2 = table
+    L9_2 = L9_2.insert
+    L10_2 = L2_2
+    L11_2 = string
+    L11_2 = L11_2.format
+    L12_2 = "^1%s.%s^7"
+    L13_2 = A1_2
+    L14_2 = L7_2
+    L11_2, L12_2, L13_2, L14_2 = L11_2(L12_2, L13_2, L14_2)
+    L9_2(L10_2, L11_2, L12_2, L13_2, L14_2)
+  end
+  L3_2 = table
+  L3_2 = L3_2.concat
+  L4_2 = L2_2
+  L5_2 = ", "
+  return L3_2(L4_2, L5_2)
 end
-
---- Deep copy a table (including metatables)
---- @param orig any The value to deep copy
---- @return any Deep copied value
-function table.deepcopy(orig)
-    if type(orig) ~= "table" then
-        return orig
+formatPossible = L1_1
+function L1_1(A0_2)
+  local L1_2, L2_2
+  if nil ~= A0_2 then
+    L1_2 = type
+    L2_2 = A0_2
+    L1_2 = L1_2(L2_2)
+    if "table" == L1_2 then
+      L1_2 = true
+      return L1_2
     end
-
-    local copy = {}
-    for key, value in next, orig do
-        copy[table.deepcopy(key)] = table.deepcopy(value)
-    end
-    setmetatable(copy, table.deepcopy(getmetatable(orig)))
-    return copy
+    L1_2 = false
+    return L1_2
+  else
+    L1_2 = false
+    return L1_2
+  end
 end
-
---- Internal deep copy helper (used by table.merge)
-local function deepcopyInternal(orig)
-    if type(orig) ~= "table" then
-        return orig
+isTable = L1_1
+L1_1 = table
+function L2_1(A0_2)
+  local L1_2, L2_2
+  L1_2 = isTable
+  L2_2 = A0_2
+  L1_2 = L1_2(L2_2)
+  if L1_2 then
+    L1_2 = next
+    L2_2 = A0_2
+    L1_2 = L1_2(L2_2)
+    if nil == L1_2 then
+      L1_2 = true
+      return L1_2
+    else
+      L1_2 = false
+      return L1_2
     end
-
-    local copy = {}
-    for key, value in next, orig do
-        copy[deepcopyInternal(key)] = deepcopyInternal(value)
-    end
-    setmetatable(copy, deepcopyInternal(getmetatable(orig)))
-    return copy
+  else
+    L1_2 = true
+    return L1_2
+  end
 end
-
---- Deep merge two tables (source values override base values)
---- @param base table The base table
---- @param source table The source table to merge from
---- @return table Merged result
-function table.merge(base, source)
-    local result = deepcopyInternal(base)
-
-    for key, value in pairs(source) do
-        if type(value) == "table" then
-            if type(result[key]) == "table" then
-                result[key] = table.merge(result[key], value)
-            end
-        else
-            result[key] = deepcopyInternal(value)
-        end
-    end
-
-    return result
+L1_1.isEmpty = L2_1
+L1_1 = table
+function L2_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2
+  if not A0_2 then
+    L1_2 = 0
+    return L1_2
+  end
+  L1_2 = 0
+  L2_2 = pairs
+  L3_2 = A0_2
+  L2_2, L3_2, L4_2, L5_2 = L2_2(L3_2)
+  for L6_2, L7_2 in L2_2, L3_2, L4_2, L5_2 do
+    L1_2 = L1_2 + 1
+  end
+  return L1_2
 end
-
---- Format table keys with a prefix for display
---- @param tbl table Table whose keys to format
---- @param prefix string Prefix to prepend
---- @return string Comma-separated formatted keys
-function formatPossible(tbl, prefix)
-    local parts = {}
-    for key, _ in pairs(tbl) do
-        table.insert(parts, string.format("^1%s.%s^7", prefix, key))
+L1_1.size = L2_1
+function L1_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2
+  L1_2 = false
+  L2_2 = Config
+  L2_2 = L2_2.DebugLevel
+  if L2_2 then
+    L2_2 = isTable
+    L3_2 = Config
+    L3_2 = L3_2.DebugLevel
+    L2_2 = L2_2(L3_2)
+    if L2_2 then
+      L2_2 = table
+      L2_2 = L2_2.isEmpty
+      L3_2 = Config
+      L3_2 = L3_2.DebugLevel
+      L2_2 = L2_2(L3_2)
+      if not L2_2 then
+        L2_2 = pairs
+        L3_2 = Config
+        L3_2 = L3_2.DebugLevel
+        L2_2, L3_2, L4_2, L5_2 = L2_2(L3_2)
+        for L6_2, L7_2 in L2_2, L3_2, L4_2, L5_2 do
+          if L7_2 == A0_2 then
+            L1_2 = true
+          end
+        end
     end
-    return table.concat(parts, ", ")
+    else
+      L2_2 = Config
+      L2_2 = L2_2.DebugLevel
+      if A0_2 == L2_2 then
+        L1_2 = true
+      end
+    end
+  end
+  return L1_2
 end
-
---- Check if a value is a table
---- @param value any Value to check
---- @return boolean Whether value is a table
-function isTable(value)
-    if value ~= nil then
-        return type(value) == "table"
+isDebugAllowed = L1_1
+function L1_1()
+  local L0_2, L1_2
+  L0_2 = {}
+  L0_2.prefix = "System"
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3, L6_3, L7_3
+    L1_3 = isDebugAllowed
+    L2_3 = "INFO"
+    L1_3 = L1_3(L2_3)
+    if L1_3 then
+      L1_3 = print
+      L2_3 = "^5["
+      L3_3 = L0_2.prefix
+      L4_3 = " | info] ^7"
+      L5_3 = sprint
+      L6_3 = A0_3
+      L7_3 = ...
+      L5_3 = L5_3(L6_3, L7_3)
+      L2_3 = L2_3 .. L3_3 .. L4_3 .. L5_3
+      L1_3(L2_3)
     end
-    return false
+  end
+  L0_2.info = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3
+    L1_3 = isDebugAllowed
+    L2_3 = "INFO"
+    L1_3 = L1_3(L2_3)
+    if L1_3 then
+      L1_3 = print
+      L2_3 = "^7"
+      L3_3 = sprint
+      L4_3 = A0_3
+      L5_3 = ...
+      L3_3 = L3_3(L4_3, L5_3)
+      L2_3 = L2_3 .. L3_3
+      L1_3(L2_3)
+    end
+  end
+  L0_2.init = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3, L6_3, L7_3
+    L1_3 = isDebugAllowed
+    L2_3 = "SUCCESS"
+    L1_3 = L1_3(L2_3)
+    if L1_3 then
+      L1_3 = print
+      L2_3 = "^3["
+      L3_3 = L0_2.prefix
+      L4_3 = " | success] ^7"
+      L5_3 = sprint
+      L6_3 = A0_3
+      L7_3 = ...
+      L5_3 = L5_3(L6_3, L7_3)
+      L2_3 = L2_3 .. L3_3 .. L4_3 .. L5_3
+      L1_3(L2_3)
+    end
+  end
+  L0_2.success = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3, L6_3, L7_3
+    L1_3 = isDebugAllowed
+    L2_3 = "CRITICAL"
+    L1_3 = L1_3(L2_3)
+    if L1_3 then
+      L1_3 = print
+      L2_3 = "^1["
+      L3_3 = L0_2.prefix
+      L4_3 = " | critical] ^7"
+      L5_3 = sprint
+      L6_3 = A0_3
+      L7_3 = ...
+      L5_3 = L5_3(L6_3, L7_3)
+      L2_3 = L2_3 .. L3_3 .. L4_3 .. L5_3
+      L1_3(L2_3)
+    end
+  end
+  L0_2.critical = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3, L6_3, L7_3
+    L1_3 = isDebugAllowed
+    L2_3 = "ERROR"
+    L1_3 = L1_3(L2_3)
+    if L1_3 then
+      L1_3 = print
+      L2_3 = "^1["
+      L3_3 = L0_2.prefix
+      L4_3 = " | error] ^7"
+      L5_3 = sprint
+      L6_3 = A0_3
+      L7_3 = ...
+      L5_3 = L5_3(L6_3, L7_3)
+      L2_3 = L2_3 .. L3_3 .. L4_3 .. L5_3
+      L1_3(L2_3)
+    end
+  end
+  L0_2.error = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3, L6_3, L7_3
+    L1_3 = isDebugAllowed
+    L2_3 = "SECURITY"
+    L1_3 = L1_3(L2_3)
+    if L1_3 then
+      L1_3 = print
+      L2_3 = "^3["
+      L3_3 = L0_2.prefix
+      L4_3 = " | security] ^7"
+      L5_3 = sprint
+      L6_3 = A0_3
+      L7_3 = ...
+      L5_3 = L5_3(L6_3, L7_3)
+      L2_3 = L2_3 .. L3_3 .. L4_3 .. L5_3
+      L1_3(L2_3)
+    end
+  end
+  L0_2.security = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3, L6_3, L7_3
+    L1_3 = isDebugAllowed
+    L2_3 = "SECURITY_SPAM"
+    L1_3 = L1_3(L2_3)
+    if L1_3 then
+      L1_3 = print
+      L2_3 = "^3["
+      L3_3 = L0_2.prefix
+      L4_3 = " | security] ^7"
+      L5_3 = sprint
+      L6_3 = A0_3
+      L7_3 = ...
+      L5_3 = L5_3(L6_3, L7_3)
+      L2_3 = L2_3 .. L3_3 .. L4_3 .. L5_3
+      L1_3(L2_3)
+    end
+  end
+  L0_2.securitySpam = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3
+    L1_3 = Config
+    L1_3 = L1_3.Debug
+    if L1_3 then
+      L1_3 = print
+      L2_3 = "^4[BRIDGE] ^7"
+      L3_3 = sprint
+      L4_3 = A0_3
+      L5_3 = ...
+      L3_3 = L3_3(L4_3, L5_3)
+      L2_3 = L2_3 .. L3_3
+      L1_3(L2_3)
+    end
+  end
+  L0_2.bridge = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3
+    L1_3 = Config
+    L1_3 = L1_3.DebugClothing
+    if L1_3 then
+      L1_3 = print
+      L2_3 = "^2[ Clothing module ] | debug] ^7"
+      L3_3 = sprint
+      L4_3 = A0_3
+      L5_3 = ...
+      L3_3 = L3_3(L4_3, L5_3)
+      L2_3 = L2_3 .. L3_3
+      L1_3(L2_3)
+    end
+  end
+  L0_2.debugClothing = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3
+    L1_3 = isDebugAllowed
+    L2_3 = "NETWORK"
+    L1_3 = L1_3(L2_3)
+    if L1_3 then
+      L1_3 = Config
+      L1_3 = L1_3.Debug
+      if L1_3 then
+        L1_3 = print
+        L2_3 = "^3[ Network | debug] ^7"
+        L3_3 = sprint
+        L4_3 = A0_3
+        L5_3 = ...
+        L3_3 = L3_3(L4_3, L5_3)
+        L2_3 = L2_3 .. L3_3
+        L1_3(L2_3)
+      end
+    end
+  end
+  L0_2.debugNetwork = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3
+    L1_3 = Config
+    L1_3 = L1_3.DebugAPI
+    if L1_3 then
+      L1_3 = print
+      L2_3 = "^5[ API module ] | debug] ^7"
+      L3_3 = sprint
+      L4_3 = A0_3
+      L5_3 = ...
+      L3_3 = L3_3(L4_3, L5_3)
+      L4_3 = [[
+
+ ^3This debug message can be disabled in configs/config.lua - DebugAPI = false]]
+      L2_3 = L2_3 .. L3_3 .. L4_3
+      L1_3(L2_3)
+    end
+  end
+  L0_2.debugAPI = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3
+    L1_3 = Config
+    L1_3 = L1_3.DebugInventory
+    if L1_3 then
+      L1_3 = print
+      L2_3 = "^5[ Inventory module ] | debug] ^7"
+      L3_3 = sprint
+      L4_3 = A0_3
+      L5_3 = ...
+      L3_3 = L3_3(L4_3, L5_3)
+      L2_3 = L2_3 .. L3_3
+      L1_3(L2_3)
+    end
+  end
+  L0_2.debugInventory = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3
+    L1_3 = isDebugAllowed
+    L2_3 = "DEBUG"
+    L1_3 = L1_3(L2_3)
+    if L1_3 then
+      L1_3 = Config
+      L1_3 = L1_3.Debug
+      if L1_3 then
+        L1_3 = print
+        L2_3 = "^3[ Debug ] ^7"
+        L3_3 = sprint
+        L4_3 = A0_3
+        L5_3 = ...
+        L3_3 = L3_3(L4_3, L5_3)
+        L2_3 = L2_3 .. L3_3
+        L1_3(L2_3)
+      end
+    end
+  end
+  L0_2.debug = L1_2
+  function L1_2(A0_3, ...)
+    local L1_3, L2_3, L3_3, L4_3, L5_3
+    L1_3 = isDebugAllowed
+    L2_3 = "MENU"
+    L1_3 = L1_3(L2_3)
+    if L1_3 then
+      L1_3 = Config
+      L1_3 = L1_3.Debug
+      if L1_3 then
+        L1_3 = print
+        L2_3 = "^3[ Menu ] ^7"
+        L3_3 = sprint
+        L4_3 = A0_3
+        L5_3 = ...
+        L3_3 = L3_3(L4_3, L5_3)
+        L2_3 = L2_3 .. L3_3
+        L1_3(L2_3)
+      end
+    end
+  end
+  L0_2.menu = L1_2
+  function L1_2(A0_3)
+    local L1_3
+    L0_2.prefix = A0_3
+  end
+  L0_2.setupPrefix = L1_2
+  function L1_2()
+    local L0_3, L1_3
+    L0_3 = L0_2.prefix
+    return L0_3
+  end
+  L0_2.getPrefix = L1_2
+  return L0_2
 end
-
---- Check if a table is empty (has no entries)
---- @param tbl any The value to check
---- @return boolean Whether the table is empty (or not a table)
-function table.isEmpty(tbl)
-    if isTable(tbl) then
-        return next(tbl) == nil
-    end
-    return true
+rdebug = L1_1
+function L1_1(A0_2, ...)
+  local L1_2, L2_2, L3_2, L4_2
+  L1_2 = rdebug
+  L1_2 = L1_2()
+  L2_2 = L1_2.info
+  L3_2 = A0_2
+  L4_2 = ...
+  L2_2(L3_2, L4_2)
 end
-
---- Get the size of a table (number of key-value pairs)
---- @param tbl table|nil The table to measure
---- @return number Size of the table
-function table.size(tbl)
-    if not tbl then
-        return 0
-    end
-
-    local count = 0
-    for _, _ in pairs(tbl) do
-        count = count + 1
-    end
-    return count
+dprint = L1_1
+function L1_1(A0_2)
+  local L1_2, L2_2, L3_2
+  L1_2 = "./images/menu/"
+  L2_2 = A0_2
+  L3_2 = ".png"
+  L1_2 = L1_2 .. L2_2 .. L3_2
+  return L1_2
 end
-
------------------------------------------------------------
--- Debug System
------------------------------------------------------------
-
---- Check if a specific debug level is allowed in the config
---- @param level string The debug level name (e.g. "INFO", "CRITICAL")
---- @return boolean Whether debugging at this level is allowed
-function isDebugAllowed(level)
-    local allowed = false
-
-    if Config.DebugLevel then
-        if isTable(Config.DebugLevel) then
-            if not table.isEmpty(Config.DebugLevel) then
-                for _, v in pairs(Config.DebugLevel) do
-                    if v == level then
-                        allowed = true
-                    end
-                end
-            end
-        else
-            if level == Config.DebugLevel then
-                allowed = true
-            end
-        end
+GetImageByName = L1_1
+function L1_1(A0_2, A1_2)
+  local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2, L13_2
+  if not A0_2 then
+    L2_2 = true
+    return L2_2
+  end
+  L2_2 = A0_2.x
+  if 0.0 == L2_2 then
+    L2_2 = A0_2.y
+    if 0.0 == L2_2 then
+      L2_2 = true
+      return L2_2
     end
-
-    return allowed
+  end
+  L2_2 = #A1_2
+  L3_2 = false
+  L4_2 = 1
+  L5_2 = L2_2
+  L6_2 = 1
+  for L7_2 = L4_2, L5_2, L6_2 do
+    L8_2 = A1_2[L7_2]
+    L9_2 = L7_2 % L2_2
+    L9_2 = L9_2 + 1
+    L9_2 = A1_2[L9_2]
+    L10_2 = L8_2.y
+    L11_2 = A0_2.y
+    L10_2 = L10_2 > L11_2
+    L11_2 = L9_2.y
+    L12_2 = A0_2.y
+    L11_2 = L11_2 > L12_2
+    if L10_2 ~= L11_2 then
+      L10_2 = A0_2.x
+      L11_2 = L9_2.x
+      L12_2 = L8_2.x
+      L11_2 = L11_2 - L12_2
+      L12_2 = A0_2.y
+      L13_2 = L8_2.y
+      L12_2 = L12_2 - L13_2
+      L11_2 = L11_2 * L12_2
+      L12_2 = L9_2.y
+      L13_2 = L8_2.y
+      L12_2 = L12_2 - L13_2
+      L11_2 = L11_2 / L12_2
+      L12_2 = L8_2.x
+      L11_2 = L11_2 + L12_2
+      if L10_2 < L11_2 then
+        L3_2 = not L3_2
+      end
+    end
+  end
+  return L3_2
 end
-
---- Create a new debug logger instance
---- @return table Debug logger object with methods: info, init, success, critical, error, security, bridge, etc.
-function rdebug()
-    local self = {}
-    self.prefix = "System"
-
-    function self.info(fmt, ...)
-        if isDebugAllowed("INFO") then
-            print("^5[" .. self.prefix .. " | info] ^7" .. sprint(fmt, ...))
-        end
-    end
-
-    function self.init(fmt, ...)
-        if isDebugAllowed("INFO") then
-            print("^7" .. sprint(fmt, ...))
-        end
-    end
-
-    function self.success(fmt, ...)
-        if isDebugAllowed("SUCCESS") then
-            print("^3[" .. self.prefix .. " | success] ^7" .. sprint(fmt, ...))
-        end
-    end
-
-    function self.critical(fmt, ...)
-        if isDebugAllowed("CRITICAL") then
-            print("^1[" .. self.prefix .. " | critical] ^7" .. sprint(fmt, ...))
-        end
-    end
-
-    function self.error(fmt, ...)
-        if isDebugAllowed("ERROR") then
-            print("^1[" .. self.prefix .. " | error] ^7" .. sprint(fmt, ...))
-        end
-    end
-
-    function self.security(fmt, ...)
-        if isDebugAllowed("SECURITY") then
-            print("^3[" .. self.prefix .. " | security] ^7" .. sprint(fmt, ...))
-        end
-    end
-
-    function self.securitySpam(fmt, ...)
-        if isDebugAllowed("SECURITY_SPAM") then
-            print("^3[" .. self.prefix .. " | security] ^7" .. sprint(fmt, ...))
-        end
-    end
-
-    function self.bridge(fmt, ...)
-        if Config.Debug then
-            print("^4[BRIDGE] ^7" .. sprint(fmt, ...))
-        end
-    end
-
-    function self.debugClothing(fmt, ...)
-        if Config.DebugClothing then
-            print("^2[ Clothing module ] | debug] ^7" .. sprint(fmt, ...))
-        end
-    end
-
-    function self.debugNetwork(fmt, ...)
-        if isDebugAllowed("NETWORK") then
-            if Config.Debug then
-                print("^3[ Network | debug] ^7" .. sprint(fmt, ...))
-            end
-        end
-    end
-
-    function self.debugAPI(fmt, ...)
-        if Config.DebugAPI then
-            print("^5[ API module ] | debug] ^7" .. sprint(fmt, ...) .. "\n ^3This debug message can be disabled in configs/config.lua - DebugAPI = false")
-        end
-    end
-
-    function self.debugInventory(fmt, ...)
-        if Config.DebugInventory then
-            print("^5[ Inventory module ] | debug] ^7" .. sprint(fmt, ...))
-        end
-    end
-
-    function self.debug(fmt, ...)
-        if isDebugAllowed("DEBUG") then
-            if Config.Debug then
-                print("^3[ Debug ] ^7" .. sprint(fmt, ...))
-            end
-        end
-    end
-
-    function self.menu(fmt, ...)
-        if isDebugAllowed("MENU") then
-            if Config.Debug then
-                print("^3[ Menu ] ^7" .. sprint(fmt, ...))
-            end
-        end
-    end
-
-    function self.setupPrefix(prefix)
-        self.prefix = prefix
-    end
-
-    function self.getPrefix()
-        return self.prefix
-    end
-
-    return self
+IsPointInPolygon = L1_1
+function L1_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2
+  L1_2 = 0
+  L2_2 = 0
+  L3_2 = 0
+  L4_2 = #A0_2
+  L5_2 = ipairs
+  L6_2 = A0_2
+  L5_2, L6_2, L7_2, L8_2 = L5_2(L6_2)
+  for L9_2, L10_2 in L5_2, L6_2, L7_2, L8_2 do
+    L11_2 = L10_2.x
+    L1_2 = L1_2 + L11_2
+    L11_2 = L10_2.y
+    L2_2 = L2_2 + L11_2
+    L11_2 = L10_2.z
+    L3_2 = L3_2 + L11_2
+  end
+  L5_2 = vector3
+  L6_2 = L1_2 / L4_2
+  L7_2 = L2_2 / L4_2
+  L8_2 = L3_2 / L4_2
+  return L5_2(L6_2, L7_2, L8_2)
 end
+CalculateCentroid = L1_1
+function L1_1(A0_2)
+  local L1_2, L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2
+  L1_2 = pairs
+  L2_2 = A0_2
+  L1_2, L2_2, L3_2, L4_2 = L1_2(L2_2)
+  for L5_2, L6_2 in L1_2, L2_2, L3_2, L4_2 do
+    L7_2 = print
+    L8_2 = "^3"
+    L9_2 = L6_2.name
+    L10_2 = "^7"
+    L8_2 = L8_2 .. L9_2 .. L10_2
+    L7_2(L8_2)
+    L7_2 = L6_2.version
+    if L7_2 then
+      L7_2 = print
+      L8_2 = "^7version: ^3"
+      L9_2 = L6_2.version
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.database
+    if L7_2 then
+      L7_2 = print
+      L8_2 = "^7database: ^3"
+      L9_2 = L6_2.database
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.debug
+    if L7_2 then
+      L7_2 = print
+      L8_2 = "^7debug: ^3"
+      L9_2 = L6_2.debug
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.locale
+    if L7_2 then
+      L7_2 = print
+      L8_2 = "^7locale: ^3"
+      L9_2 = L6_2.locale
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.preset
+    if L7_2 then
+      L7_2 = print
+      L8_2 = "^7map: ^3"
+      L9_2 = L6_2.preset
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.notify
+    if L7_2 then
+      L7_2 = print
+      L8_2 = "^7notify: ^3"
+      L9_2 = L6_2.notify
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.inventory
+    if L7_2 then
+      L7_2 = L6_2.inventory
+      if "auto_detect" == L7_2 then
+        L6_2.inventory = "none"
+      end
+      L7_2 = print
+      L8_2 = "^7inventory: ^3"
+      L9_2 = L6_2.inventory
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.dispatch
+    if L7_2 then
+      L7_2 = print
+      L8_2 = "^7dispatch: ^3"
+      L9_2 = L6_2.dispatch
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.clothing
+    if L7_2 then
+      L7_2 = print
+      L8_2 = "^7clothing: ^3"
+      L9_2 = L6_2.clothing
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.framework
+    if L7_2 then
+      L7_2 = print
+      L8_2 = "^7framework: ^3"
+      L9_2 = L6_2.framework
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.jailTime
+    if L7_2 then
+      L7_2 = print
+      L8_2 = "^7jail time conversion: ^3"
+      L9_2 = L6_2.jailTime
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.phone
+    if L7_2 then
+      L7_2 = print
+      L8_2 = "^7phone: ^3"
+      L9_2 = L6_2.phone
+      if "auto_detect" == L9_2 then
+        L9_2 = "Not any supported phone loaded"
+        if L9_2 then
+          goto lbl_115
+        end
+      end
+      L9_2 = L6_2.phone
+      ::lbl_115::
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.economy
+    if L7_2 then
+      L7_2 = print
+      L8_2 = "^7economy item: ^3"
+      L9_2 = L6_2.economy
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+    L7_2 = L6_2.docs
+    if L7_2 then
+      L7_2 = print
+      L8_2 = [[
 
---- Shortcut to create a debug instance and print info
---- @param fmt string Format string
---- @param ... any Format arguments
-function dprint(fmt, ...)
-    local d = rdebug()
-    d.info(fmt, ...)
+^7Docs: ^3 ]]
+      L9_2 = L6_2.docs
+      L8_2 = L8_2 .. L9_2
+      L7_2(L8_2)
+    end
+  end
 end
-
------------------------------------------------------------
--- Image Helpers
------------------------------------------------------------
-
---- Get an image path by name (for menu icons)
---- @param name string Image name without extension
---- @return string Full relative path to the image
-function GetImageByName(name)
-    return "./images/menu/" .. name .. ".png"
+printResource = L1_1
+function L1_1(A0_2, A1_2)
+  local L2_2, L3_2
+  if nil == A0_2 then
+    return A1_2
+  end
+  L2_2 = tonumber
+  L3_2 = A0_2
+  L2_2 = L2_2(L3_2)
+  if nil == L2_2 then
+    if not A1_2 then
+      A1_2 = 0
+    end
+    return A1_2
+  end
+  return L2_2
 end
-
------------------------------------------------------------
--- Geometry Utilities
------------------------------------------------------------
-
---- Check if a point is inside a polygon (ray casting algorithm)
---- @param point table|nil Point with x, y coordinates
---- @param polygon table Array of points forming the polygon
---- @return boolean Whether the point is inside the polygon
-function IsPointInPolygon(point, polygon)
-    if not point then
-        return true
+safeNumber = L1_1
+L1_1 = IsDuplicityVersion
+L1_1 = L1_1()
+if L1_1 then
+  function L1_1(A0_2, A1_2, ...)
+    local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2
+    L2_2 = GetCurrentResourceName
+    L2_2 = L2_2()
+    if not A1_2 then
+      L3_2 = dbg
+      L3_2 = L3_2.critical
+      L4_2 = "Invalid event name for %s"
+      L5_2 = L2_2
+      return L3_2(L4_2, L5_2)
     end
-
-    if point.x == 0.0 and point.y == 0.0 then
-        return true
+    L3_2 = "%s:%s"
+    L4_2 = L3_2
+    L3_2 = L3_2.format
+    L5_2 = L2_2
+    L6_2 = "client:"
+    L7_2 = A1_2
+    L6_2 = L6_2 .. L7_2
+    L3_2 = L3_2(L4_2, L5_2, L6_2)
+    if not L3_2 then
+      return
     end
-
-    local numVertices = #polygon
-    local inside = false
-
-    for i = 1, numVertices do
-        local current = polygon[i]
-        local nextIdx = (i % numVertices) + 1
-        local nextPoint = polygon[nextIdx]
-
-        local currentAbove = current.y > point.y
-        local nextAbove = nextPoint.y > point.y
-
-        if currentAbove ~= nextAbove then
-            local intersectX = (nextPoint.x - current.x) * (point.y - current.y) / (nextPoint.y - current.y) + current.x
-            if point.x < intersectX then
-                inside = not inside
-            end
-        end
+    L4_2 = nil
+    if -1 == A0_2 then
+      L4_2 = "ALL PLAYERS"
+    else
+      L5_2 = GetPlayerName
+      L6_2 = A0_2
+      L5_2 = L5_2(L6_2)
+      L4_2 = L5_2
     end
-
-    return inside
-end
-
---- Calculate the centroid (center point) of a polygon
---- @param points table Array of vec3 points
---- @return vector3 The centroid position
-function CalculateCentroid(points)
-    local sumX, sumY, sumZ = 0, 0, 0
-    local count = #points
-
-    for _, point in ipairs(points) do
-        sumX = sumX + point.x
-        sumY = sumY + point.y
-        sumZ = sumZ + point.z
-    end
-
-    return vector3(sumX / count, sumY / count, sumZ / count)
-end
-
------------------------------------------------------------
--- Resource Info Display
------------------------------------------------------------
-
---- Print resource information to console (used for startup display)
---- @param resources table Array of resource info objects
-function printResource(resources)
-    for _, resource in pairs(resources) do
-        print("^3" .. resource.name .. "^7")
-
-        if resource.version then
-            print("^7version: ^3" .. resource.version)
-        end
-        if resource.database then
-            print("^7database: ^3" .. resource.database)
-        end
-        if resource.debug then
-            print("^7debug: ^3" .. resource.debug)
-        end
-        if resource.locale then
-            print("^7locale: ^3" .. resource.locale)
-        end
-        if resource.preset then
-            print("^7map: ^3" .. resource.preset)
-        end
-        if resource.notify then
-            print("^7notify: ^3" .. resource.notify)
-        end
-        if resource.inventory then
-            if resource.inventory == "auto_detect" then
-                resource.inventory = "none"
-            end
-            print("^7inventory: ^3" .. resource.inventory)
-        end
-        if resource.dispatch then
-            print("^7dispatch: ^3" .. resource.dispatch)
-        end
-        if resource.clothing then
-            print("^7clothing: ^3" .. resource.clothing)
-        end
-        if resource.framework then
-            print("^7framework: ^3" .. resource.framework)
-        end
-        if resource.jailTime then
-            print("^7jail time conversion: ^3" .. resource.jailTime)
-        end
-        if resource.phone then
-            local phoneDisplay = resource.phone
-            if phoneDisplay == "auto_detect" then
-                phoneDisplay = "Not any supported phone loaded"
-            end
-            print("^7phone: ^3" .. phoneDisplay)
-        end
-        if resource.economy then
-            print("^7economy item: ^3" .. resource.economy)
-        end
-        if resource.docs then
-            print("\n^7Docs: ^3 " .. resource.docs)
-        end
-    end
-end
-
------------------------------------------------------------
--- Number Safety
------------------------------------------------------------
-
---- Safely convert a value to a number with a fallback default
---- @param value any The value to convert
---- @param default number|nil Fallback value if conversion fails
---- @return number The converted number or default
-function safeNumber(value, default)
-    if value == nil then
-        return default
-    end
-
-    local num = tonumber(value)
-    if num == nil then
-        return default or 0
-    end
-
-    return num
-end
-
------------------------------------------------------------
--- Server/Client Specific Utilities
------------------------------------------------------------
-
-if IsDuplicityVersion() then
-    --- Trigger a client event on a specific player (server-side only)
-    --- @param playerId number Target player ID (-1 for all)
-    --- @param eventName string The event name suffix
-    --- @param ... any Event arguments
-    function StartClient(playerId, eventName, ...)
-        local resourceName = GetCurrentResourceName()
-
-        if not eventName then
-            return dbg.critical("Invalid event name for %s", resourceName)
-        end
-
-        local fullEventName = string.format("%s:%s", resourceName, "client:" .. eventName)
-
-        if not fullEventName then
-            return
-        end
-
-        local targetName = nil
-        if playerId == -1 then
-            targetName = "ALL PLAYERS"
-        else
-            targetName = GetPlayerName(playerId)
-        end
-
-        dbg.debug("Starting client with %s for user %s | Target: %s", eventName, targetName, playerId)
-
-        TriggerClientEvent(fullEventName, playerId, ...)
-    end
+    L5_2 = dbg
+    L5_2 = L5_2.debug
+    L6_2 = "Starting client with %s for user %s | Target: %s"
+    L7_2 = A1_2
+    L8_2 = L4_2
+    L9_2 = A0_2
+    L5_2(L6_2, L7_2, L8_2, L9_2)
+    L5_2 = 1000000
+    L6_2 = TriggerClientEvent
+    L7_2 = L3_2
+    L8_2 = A0_2
+    L9_2 = ...
+    L6_2(L7_2, L8_2, L9_2)
+  end
+  StartClient = L1_1
 else
-    --- Make a ped ignore hits from other players (client-side only)
-    --- @param ped number The ped entity handle
-    --- @param ignore boolean Whether to enable or disable ignore mode
-    function MakePedIgnoreHitFromOtherPlayer(ped, ignore)
-        if not DoesEntityExist(ped) or not IsEntityAPed(ped) then
-            return
-        end
-
-        if ignore then
-            SetEntityInvincible(ped, true)
-            SetPedCanBeTargetted(ped, false)
-            SetEntityCompletelyDisableCollision(ped, true, true)
-            SetEntityCanBeDamaged(ped, false)
-            SetPedCanRagdoll(ped, false)
-            FreezeEntityPosition(ped, true)
-            SetEntityProofs(ped, false, true, false, false, false, false, false, false)
-            SetBlockingOfNonTemporaryEvents(ped, true)
-        else
-            SetPedCanRagdoll(ped, true)
-            SetEntityInvincible(ped, false)
-            SetPedCanBeTargetted(ped, true)
-            SetEntityCanBeDamaged(ped, true)
-            FreezeEntityPosition(ped, false)
-            SetEntityProofs(ped, false, false, false, false, false, false, false, false)
-            SetBlockingOfNonTemporaryEvents(ped, false)
-        end
+  function L1_1(A0_2, A1_2)
+    local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2
+    L2_2 = DoesEntityExist
+    L3_2 = A0_2
+    L2_2 = L2_2(L3_2)
+    if L2_2 then
+      L2_2 = IsEntityAPed
+      L3_2 = A0_2
+      L2_2 = L2_2(L3_2)
+      if L2_2 then
+        goto lbl_12
+      end
     end
-
-    --- Register a key binding with optional cooldown support (client-side only)
-    --- @param callback function The function to call when key is pressed
-    --- @param commandPrefix string Command name prefix
-    --- @param description string Description shown in key settings
-    --- @param key string The default key
-    --- @param inputType string|nil Input type (default: "keyboard")
-    --- @param options table|nil Options with .state (boolean) and .cooldown (number ms)
-    function RegisterKey(callback, commandPrefix, description, key, inputType, options)
-        if inputType == nil then
-            inputType = "keyboard"
-        end
-
-        dbg.debug("Registering key %s %s %s", key, commandPrefix, description)
-
-        if options ~= nil and type(options) == "table" and next(options) then
-            local hasCooldown = options.state
-            local cooldownTime = options.cooldown
-            local lastUsed = nil
-
-            if hasCooldown then
-                RegisterCommand(commandPrefix .. key, function()
-                    local now = GetGameTimer()
-
-                    if lastUsed then
-                        if now - lastUsed < cooldownTime then
-                            return
-                        end
-                    end
-
-                    lastUsed = GetGameTimer()
-                    callback()
-                end, false)
-            else
-                RegisterCommand(commandPrefix .. key, callback, false)
-            end
-        else
-            RegisterCommand(commandPrefix .. key, callback, false)
-        end
-
-        RegisterKeyMapping(commandPrefix .. key, "POLICE:" .. " " .. description, inputType, key)
+    do return end
+    ::lbl_12::
+    if A1_2 then
+      L2_2 = SetEntityInvincible
+      L3_2 = A0_2
+      L4_2 = true
+      L2_2(L3_2, L4_2)
+      L2_2 = SetPedCanBeTargetted
+      L3_2 = A0_2
+      L4_2 = false
+      L2_2(L3_2, L4_2)
+      L2_2 = SetEntityCompletelyDisableCollision
+      L3_2 = A0_2
+      L4_2 = true
+      L5_2 = true
+      L2_2(L3_2, L4_2, L5_2)
+      L2_2 = SetEntityCanBeDamaged
+      L3_2 = A0_2
+      L4_2 = false
+      L2_2(L3_2, L4_2)
+      L2_2 = SetPedCanRagdoll
+      L3_2 = A0_2
+      L4_2 = false
+      L2_2(L3_2, L4_2)
+      L2_2 = FreezeEntityPosition
+      L3_2 = A0_2
+      L4_2 = true
+      L2_2(L3_2, L4_2)
+      L2_2 = SetEntityProofs
+      L3_2 = A0_2
+      L4_2 = false
+      L5_2 = true
+      L6_2 = false
+      L7_2 = false
+      L8_2 = false
+      L9_2 = false
+      L10_2 = false
+      L11_2 = false
+      L2_2(L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2)
+      L2_2 = SetBlockingOfNonTemporaryEvents
+      L3_2 = A0_2
+      L4_2 = true
+      L2_2(L3_2, L4_2)
+    else
+      L2_2 = SetPedCanRagdoll
+      L3_2 = A0_2
+      L4_2 = true
+      L2_2(L3_2, L4_2)
+      L2_2 = SetEntityInvincible
+      L3_2 = A0_2
+      L4_2 = false
+      L2_2(L3_2, L4_2)
+      L2_2 = SetPedCanBeTargetted
+      L3_2 = A0_2
+      L4_2 = true
+      L2_2(L3_2, L4_2)
+      L2_2 = SetEntityCanBeDamaged
+      L3_2 = A0_2
+      L4_2 = true
+      L2_2(L3_2, L4_2)
+      L2_2 = FreezeEntityPosition
+      L3_2 = A0_2
+      L4_2 = false
+      L2_2(L3_2, L4_2)
+      L2_2 = SetEntityProofs
+      L3_2 = A0_2
+      L4_2 = false
+      L5_2 = false
+      L6_2 = false
+      L7_2 = false
+      L8_2 = false
+      L9_2 = false
+      L10_2 = false
+      L11_2 = false
+      L2_2(L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2)
+      L2_2 = SetBlockingOfNonTemporaryEvents
+      L3_2 = A0_2
+      L4_2 = false
+      L2_2(L3_2, L4_2)
     end
-end
-
------------------------------------------------------------
--- Table Dump (Debug Serialization)
------------------------------------------------------------
-
---- Dump a table to a formatted string representation (for debugging/export)
---- @param tbl table The table to dump
---- @param silent boolean|nil If true, don't print the result
---- @return string The formatted table string
-function dumpTable(tbl, silent)
-    local visited = {}
-    local stack = {}
-    local parts = {}
-    local depth = 1
-    local output = "{\n"
-
-    while true do
-        local count = 0
-        for _ in pairs(tbl) do
-            count = count + 1
-        end
-
-        local idx = 1
-        for key, value in pairs(tbl) do
-            -- Skip already-visited entries
-            if visited[tbl] ~= nil and idx < visited[tbl] then
-                goto continue
-            end
-
-            -- Add separator
-            if string.find(output, "}", output:len()) then
-                output = output .. ",\n"
-            elseif not string.find(output, "\n", output:len()) then
-                output = output .. "\n"
-            end
-
-            table.insert(parts, output)
-            output = ""
-
-            -- Format the key
-            local keyStr
-            if type(key) == "number" or type(key) == "boolean" then
-                keyStr = tostring(key)
-            else
-                keyStr = tostring(key)
-            end
-
-            -- Format the value
-            if type(value) == "number" or type(value) == "boolean" then
-                output = output .. string.rep("\t", depth) .. keyStr .. " = " .. tostring(value)
-            elseif type(value) == "table" then
-                if type(key) == "number" then
-                    output = output .. string.rep("\t", depth) .. "{\n"
-                else
-                    output = output .. string.rep("\t", depth) .. keyStr .. " = {\n"
+  end
+  MakePedIgnoreHitFromOtherPlayer = L1_1
+  function L1_1(A0_2, A1_2, A2_2, A3_2, A4_2, A5_2)
+    local L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2
+    if nil == A4_2 then
+      A4_2 = "keyboard"
+    end
+    L6_2 = dbg
+    L6_2 = L6_2.debug
+    L7_2 = "Registering key %s %s %s"
+    L8_2 = A3_2
+    L9_2 = A1_2
+    L10_2 = A2_2
+    L6_2(L7_2, L8_2, L9_2, L10_2)
+    if nil ~= A5_2 then
+      L6_2 = type
+      L7_2 = A5_2
+      L6_2 = L6_2(L7_2)
+      if "table" == L6_2 then
+        L6_2 = next
+        L7_2 = A5_2
+        L6_2 = L6_2(L7_2)
+        if L6_2 then
+          L6_2 = A5_2.state
+          L7_2 = A5_2.cooldown
+          L8_2 = nil
+          if L6_2 then
+            L9_2 = RegisterCommand
+            L10_2 = A1_2
+            L11_2 = A3_2
+            L10_2 = L10_2 .. L11_2
+            function L11_2()
+              local L0_3, L1_3, L2_3
+              L0_3 = GetGameTimer
+              L0_3 = L0_3()
+              L1_3 = L8_2
+              if L1_3 then
+                L1_3 = L8_2
+                L1_3 = L0_3 - L1_3
+                L2_3 = L7_2
+                if L1_3 < L2_3 then
+                  return
                 end
-                table.insert(stack, tbl)
-                table.insert(stack, value)
-                visited[tbl] = idx + 1
-                break
-            elseif type(value) == "vector3" then
-                output = output .. string.rep("\t", depth) .. keyStr .. " = " .. tostring(value)
-            else
-                output = output .. string.rep("\t", depth) .. keyStr .. " = '" .. tostring(value) .. "'"
+              end
+              L1_3 = GetGameTimer
+              L1_3 = L1_3()
+              L8_2 = L1_3
+              L1_3 = A0_2
+              L1_3()
             end
-
-            -- Close or continue
-            if idx == count then
-                output = output .. "\n" .. string.rep("\t", depth - 1) .. "}"
-            else
-                output = output .. ","
-                goto next_item
-                ::continue::
-                if idx == count then
-                    output = output .. "\n" .. string.rep("\t", depth - 1) .. "}"
-                end
-            end
-
-            ::next_item::
-            idx = idx + 1
-        end
-
-        -- Handle empty tables
-        if count == 0 then
-            output = output .. "\n" .. string.rep("\t", depth - 1)
-        end
-
-        -- Pop from stack
-        if not (#stack > 0) then
-            break
-        end
-
-        tbl = stack[#stack]
-        stack[#stack] = nil
-
-        if visited[tbl] == nil then
-            depth = depth + 1
-        else
-            depth = depth - 1
-        end
+            L12_2 = false
+            L9_2(L10_2, L11_2, L12_2)
+          else
+            L9_2 = RegisterCommand
+            L10_2 = A1_2
+            L11_2 = A3_2
+            L10_2 = L10_2 .. L11_2
+            L11_2 = A0_2
+            L12_2 = false
+            L9_2(L10_2, L11_2, L12_2)
+          end
+      end
     end
-
-    table.insert(parts, output)
-    output = table.concat(parts)
-
-    return output
+    else
+      L6_2 = RegisterCommand
+      L7_2 = A1_2
+      L8_2 = A3_2
+      L7_2 = L7_2 .. L8_2
+      L8_2 = A0_2
+      L9_2 = false
+      L6_2(L7_2, L8_2, L9_2)
+    end
+    L6_2 = RegisterKeyMapping
+    L7_2 = A1_2
+    L8_2 = A3_2
+    L7_2 = L7_2 .. L8_2
+    L8_2 = "POLICE:"
+    L9_2 = " "
+    L10_2 = A2_2
+    L8_2 = L8_2 .. L9_2 .. L10_2
+    L9_2 = A4_2
+    L10_2 = A3_2
+    L6_2(L7_2, L8_2, L9_2, L10_2)
+  end
+  RegisterKey = L1_1
 end
+function L1_1(A0_2, A1_2)
+  local L2_2, L3_2, L4_2, L5_2, L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2, L13_2, L14_2, L15_2, L16_2, L17_2, L18_2, L19_2, L20_2, L21_2
+  L2_2 = {}
+  L3_2 = {}
+  L4_2 = {}
+  L5_2 = 1
+  L6_2 = "{\n"
+  while true do
+    L7_2 = 0
+    L8_2 = pairs
+    L9_2 = A0_2
+    L8_2, L9_2, L10_2, L11_2 = L8_2(L9_2)
+    for L12_2, L13_2 in L8_2, L9_2, L10_2, L11_2 do
+      L7_2 = L7_2 + 1
+    end
+    L8_2 = 1
+    L9_2 = pairs
+    L10_2 = A0_2
+    L9_2, L10_2, L11_2, L12_2 = L9_2(L10_2)
+    for L13_2, L14_2 in L9_2, L10_2, L11_2, L12_2 do
+      L15_2 = L2_2[A0_2]
+      if nil ~= L15_2 then
+        L15_2 = L2_2[A0_2]
+        if not (L8_2 >= L15_2) then
+          goto lbl_211
+        end
+      end
+      L15_2 = string
+      L15_2 = L15_2.find
+      L16_2 = L6_2
+      L17_2 = "}"
+      L19_2 = L6_2
+      L18_2 = L6_2.len
+      L18_2, L19_2, L20_2, L21_2 = L18_2(L19_2)
+      L15_2 = L15_2(L16_2, L17_2, L18_2, L19_2, L20_2, L21_2)
+      if L15_2 then
+        L15_2 = L6_2
+        L16_2 = ",\n"
+        L15_2 = L15_2 .. L16_2
+        L6_2 = L15_2
+      else
+        L15_2 = string
+        L15_2 = L15_2.find
+        L16_2 = L6_2
+        L17_2 = "\n"
+        L19_2 = L6_2
+        L18_2 = L6_2.len
+        L18_2, L19_2, L20_2, L21_2 = L18_2(L19_2)
+        L15_2 = L15_2(L16_2, L17_2, L18_2, L19_2, L20_2, L21_2)
+        if not L15_2 then
+          L15_2 = L6_2
+          L16_2 = "\n"
+          L15_2 = L15_2 .. L16_2
+          L6_2 = L15_2
+        end
+      end
+      L15_2 = table
+      L15_2 = L15_2.insert
+      L16_2 = L4_2
+      L17_2 = L6_2
+      L15_2(L16_2, L17_2)
+      L6_2 = ""
+      L15_2 = nil
+      L16_2 = type
+      L17_2 = L13_2
+      L16_2 = L16_2(L17_2)
+      if "number" ~= L16_2 then
+        L16_2 = type
+        L17_2 = L13_2
+        L16_2 = L16_2(L17_2)
+        if "boolean" ~= L16_2 then
+          goto lbl_82
+        end
+      end
+      L16_2 = ""
+      L17_2 = tostring
+      L18_2 = L13_2
+      L17_2 = L17_2(L18_2)
+      L18_2 = ""
+      L16_2 = L16_2 .. L17_2 .. L18_2
+      L15_2 = L16_2
+      goto lbl_89
+      ::lbl_82::
+      L16_2 = ""
+      L17_2 = tostring
+      L18_2 = L13_2
+      L17_2 = L17_2(L18_2)
+      L18_2 = ""
+      L16_2 = L16_2 .. L17_2 .. L18_2
+      L15_2 = L16_2
+      ::lbl_89::
+      L16_2 = type
+      L17_2 = L14_2
+      L16_2 = L16_2(L17_2)
+      if "number" ~= L16_2 then
+        L16_2 = type
+        L17_2 = L14_2
+        L16_2 = L16_2(L17_2)
+        if "boolean" ~= L16_2 then
+          goto lbl_113
+        end
+      end
+      L16_2 = L6_2
+      L17_2 = string
+      L17_2 = L17_2.rep
+      L18_2 = "\t"
+      L19_2 = L5_2
+      L17_2 = L17_2(L18_2, L19_2)
+      L18_2 = L15_2
+      L19_2 = " = "
+      L20_2 = tostring
+      L21_2 = L14_2
+      L20_2 = L20_2(L21_2)
+      L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2 .. L20_2
+      L6_2 = L16_2
+      goto lbl_192
+      ::lbl_113::
+      L16_2 = type
+      L17_2 = L14_2
+      L16_2 = L16_2(L17_2)
+      if "table" == L16_2 then
+        L16_2 = type
+        L17_2 = L13_2
+        L16_2 = L16_2(L17_2)
+        if "number" == L16_2 then
+          L16_2 = L6_2
+          L17_2 = string
+          L17_2 = L17_2.rep
+          L18_2 = "\t"
+          L19_2 = L5_2
+          L17_2 = L17_2(L18_2, L19_2)
+          L18_2 = "{\n"
+          L16_2 = L16_2 .. L17_2 .. L18_2
+          L6_2 = L16_2
+        else
+          L16_2 = L6_2
+          L17_2 = string
+          L17_2 = L17_2.rep
+          L18_2 = "\t"
+          L19_2 = L5_2
+          L17_2 = L17_2(L18_2, L19_2)
+          L18_2 = L15_2
+          L19_2 = " = {\n"
+          L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2
+          L6_2 = L16_2
+        end
+        L16_2 = table
+        L16_2 = L16_2.insert
+        L17_2 = L3_2
+        L18_2 = A0_2
+        L16_2(L17_2, L18_2)
+        L16_2 = table
+        L16_2 = L16_2.insert
+        L17_2 = L3_2
+        L18_2 = L14_2
+        L16_2(L17_2, L18_2)
+        L16_2 = L8_2 + 1
+        L2_2[A0_2] = L16_2
+        break
+      else
+        L16_2 = type
+        L17_2 = L14_2
+        L16_2 = L16_2(L17_2)
+        if "vector3" == L16_2 then
+          L16_2 = L6_2
+          L17_2 = string
+          L17_2 = L17_2.rep
+          L18_2 = "\t"
+          L19_2 = L5_2
+          L17_2 = L17_2(L18_2, L19_2)
+          L18_2 = L15_2
+          L19_2 = " = "
+          L20_2 = tostring
+          L21_2 = L14_2
+          L20_2 = L20_2(L21_2)
+          L21_2 = ""
+          L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2 .. L20_2 .. L21_2
+          L6_2 = L16_2
+        else
+          L16_2 = L6_2
+          L17_2 = string
+          L17_2 = L17_2.rep
+          L18_2 = "\t"
+          L19_2 = L5_2
+          L17_2 = L17_2(L18_2, L19_2)
+          L18_2 = L15_2
+          L19_2 = " = '"
+          L20_2 = tostring
+          L21_2 = L14_2
+          L20_2 = L20_2(L21_2)
+          L21_2 = "'"
+          L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2 .. L20_2 .. L21_2
+          L6_2 = L16_2
+        end
+      end
+      ::lbl_192::
+      if L8_2 == L7_2 then
+        L16_2 = L6_2
+        L17_2 = "\n"
+        L18_2 = string
+        L18_2 = L18_2.rep
+        L19_2 = "\t"
+        L20_2 = L5_2 - 1
+        L18_2 = L18_2(L19_2, L20_2)
+        L19_2 = "}"
+        L16_2 = L16_2 .. L17_2 .. L18_2 .. L19_2
+        L6_2 = L16_2
+      else
+        L16_2 = L6_2
+        L17_2 = ","
+        L16_2 = L16_2 .. L17_2
+        L6_2 = L16_2
+        goto lbl_224
+        ::lbl_211::
+        if L8_2 == L7_2 then
+          L15_2 = L6_2
+          L16_2 = "\n"
+          L17_2 = string
+          L17_2 = L17_2.rep
+          L18_2 = "\t"
+          L19_2 = L5_2 - 1
+          L17_2 = L17_2(L18_2, L19_2)
+          L18_2 = "}"
+          L15_2 = L15_2 .. L16_2 .. L17_2 .. L18_2
+          L6_2 = L15_2
+        end
+      end
+      ::lbl_224::
+      L8_2 = L8_2 + 1
+    end
+    if 0 == L7_2 then
+      L9_2 = L6_2
+      L10_2 = "\n"
+      L11_2 = string
+      L11_2 = L11_2.rep
+      L12_2 = "\t"
+      L13_2 = L5_2 - 1
+      L11_2 = L11_2(L12_2, L13_2)
+      L12_2 = ""
+      L9_2 = L9_2 .. L10_2 .. L11_2 .. L12_2
+      L6_2 = L9_2
+    end
+    L9_2 = #L3_2
+    if not (L9_2 > 0) then
+      break
+    end
+    L9_2 = #L3_2
+    A0_2 = L3_2[L9_2]
+    L9_2 = #L3_2
+    L3_2[L9_2] = nil
+    L9_2 = L2_2[A0_2]
+    if nil == L9_2 then
+      L9_2 = L5_2 + 1
+      if L9_2 then
+        goto lbl_260
+        L5_2 = L9_2 or L5_2
+      end
+    end
+    L5_2 = L5_2 - 1
+    goto lbl_260
+    do break end
+    ::lbl_260::
+  end
+  L7_2 = table
+  L7_2 = L7_2.insert
+  L8_2 = L4_2
+  L9_2 = L6_2
+  L7_2(L8_2, L9_2)
+  L7_2 = table
+  L7_2 = L7_2.concat
+  L8_2 = L4_2
+  L7_2 = L7_2(L8_2)
+  L6_2 = L7_2
+  if not A1_2 then
+  end
+  return L6_2
+end
+dumpTable = L1_1

@@ -1,3 +1,1 @@
--- Type definitions placeholder for rcore_police
--- This file is loaded first in fxmanifest shared_scripts to establish any type globals.
--- Currently empty - types are defined inline throughout the codebase.
+local L0_1, L1_1
