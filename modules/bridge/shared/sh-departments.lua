@@ -349,35 +349,32 @@ function L2_1(A0_2, A1_2, A2_2, A3_2)
             if not L23_2 then
               goto lbl_112
             end
-          else
-            L23_2 = L22_2.isAir
-            if L23_2 then
+          elseif L22_2.isAir then
+            goto lbl_112
           end
-          else
-            L23_2 = L22_2.price
-            if not L23_2 then
-              L23_2 = 0
-            end
-            L24_2 = Config
-            L24_2 = L24_2.Garage
-            L24_2 = L24_2.DepartmentsEnableBuyVehicles
-            if not L24_2 then
-              L23_2 = 0
-            end
-            L24_2 = table
-            L24_2 = L24_2.insert
-            L25_2 = L7_2
-            L26_2 = {}
-            L26_2.name = L21_2
-            L27_2 = L22_2.label
-            L26_2.label = L27_2
-            L27_2 = L22_2.model
-            L26_2.model = L27_2
-            L26_2.price = L23_2
-            L27_2 = L22_2.image
-            L26_2.image = L27_2
-            L24_2(L25_2, L26_2)
+          L23_2 = L22_2.price
+          if not L23_2 then
+            L23_2 = 0
           end
+          L24_2 = Config
+          L24_2 = L24_2.Garage
+          L24_2 = L24_2.DepartmentsEnableBuyVehicles
+          if not L24_2 then
+            L23_2 = 0
+          end
+          L24_2 = table
+          L24_2 = L24_2.insert
+          L25_2 = L7_2
+          L26_2 = {}
+          L26_2.name = L21_2
+          L27_2 = L22_2.label
+          L26_2.label = L27_2
+          L27_2 = L22_2.model
+          L26_2.model = L27_2
+          L26_2.price = L23_2
+          L27_2 = L22_2.image
+          L26_2.image = L27_2
+          L24_2(L25_2, L26_2)
           ::lbl_112::
         end
         L16_2 = L0_1
@@ -434,25 +431,22 @@ function L2_1(A0_2, A1_2, A2_2, A3_2)
         if not L18_2 then
           goto lbl_194
         end
-      else
-        L18_2 = L16_2.isAir
-        if L18_2 then
+      elseif L16_2.isAir then
+        goto lbl_194
       end
-      else
-        L18_2 = table
-        L18_2 = L18_2.insert
-        L19_2 = L7_2
-        L20_2 = {}
-        L20_2.name = L15_2
-        L21_2 = L16_2.label
-        L20_2.label = L21_2
-        L21_2 = L16_2.model
-        L20_2.model = L21_2
-        L20_2.price = L17_2
-        L21_2 = L16_2.image
-        L20_2.image = L21_2
-        L18_2(L19_2, L20_2)
-      end
+      L18_2 = table
+      L18_2 = L18_2.insert
+      L19_2 = L7_2
+      L20_2 = {}
+      L20_2.name = L15_2
+      L21_2 = L16_2.label
+      L20_2.label = L21_2
+      L21_2 = L16_2.model
+      L20_2.model = L21_2
+      L20_2.price = L17_2
+      L21_2 = L16_2.image
+      L20_2.image = L21_2
+      L18_2(L19_2, L20_2)
     end
     ::lbl_194::
   end
