@@ -808,28 +808,28 @@ function L1_1(A0_2)
       L15_2 = L11_2
       L13_2(L14_2, L15_2)
       goto lbl_111
-      ::lbl_90::
-      L12_2 = L10_2.componentId
-      L12_2 = L2_2[L12_2]
-      if L12_2 then
-        L13_2 = L10_2.textureId
-        if not L13_2 then
-          L13_2 = -1
-        end
-        L11_2.texture = L13_2
-        L13_2 = L10_2.drawableId
-        if not L13_2 then
-          L13_2 = -1
-        end
-        L11_2.drawable = L13_2
-        L13_2 = L10_2.componentId
-        L11_2.prop_id = L13_2
-        L13_2 = table
-        L13_2 = L13_2.insert
-        L14_2 = L4_2
-        L15_2 = L11_2
-        L13_2(L14_2, L15_2)
+    end
+    ::lbl_90::
+    L12_2 = L10_2.componentId
+    L12_2 = L2_2[L12_2]
+    if L12_2 then
+      L13_2 = L10_2.textureId
+      if not L13_2 then
+        L13_2 = -1
       end
+      L11_2.texture = L13_2
+      L13_2 = L10_2.drawableId
+      if not L13_2 then
+        L13_2 = -1
+      end
+      L11_2.drawable = L13_2
+      L13_2 = L10_2.componentId
+      L11_2.prop_id = L13_2
+      L13_2 = table
+      L13_2 = L13_2.insert
+      L14_2 = L4_2
+      L15_2 = L11_2
+      L13_2(L14_2, L15_2)
     end
     ::lbl_111::
   end

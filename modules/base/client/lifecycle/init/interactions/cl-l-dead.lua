@@ -112,35 +112,40 @@ function L2_1()
     end
     if not L2_2 then
       L4_2 = deathFlag
-      ::lbl_42::
       if L4_2 then
-        L4_2 = deathFlag
-        if L4_2 then
-          while true do
-            L4_2 = IsPedStill
-            L5_2 = L0_2
-            L4_2 = L4_2(L5_2)
-            if not L4_2 then
-              break
-            end
-            L4_2 = Wait
-            L5_2 = 250
-            L4_2(L5_2)
-            L4_2 = DeadUtils
-            L4_2 = L4_2.ShouldRespawn
-            L5_2 = L0_2
-            L4_2 = L4_2(L5_2)
-            if L4_2 then
-              break
-            end
-          end
-        end
-        L4_2 = PlayerAlive
-        L5_2 = L0_2
-        L4_2(L5_2)
-        deathFlag = false
+        goto lbl_42
       end
     end
+    goto lbl_skip42
+    ::lbl_42::
+    if L4_2 then
+      L4_2 = deathFlag
+      if L4_2 then
+        while true do
+          L4_2 = IsPedStill
+          L5_2 = L0_2
+          L4_2 = L4_2(L5_2)
+          if not L4_2 then
+            break
+          end
+          L4_2 = Wait
+          L5_2 = 250
+          L4_2(L5_2)
+          L4_2 = DeadUtils
+          L4_2 = L4_2.ShouldRespawn
+          L5_2 = L0_2
+          L4_2 = L4_2(L5_2)
+          if L4_2 then
+            break
+          end
+        end
+      end
+      L4_2 = PlayerAlive
+      L5_2 = L0_2
+      L4_2(L5_2)
+      deathFlag = false
+    end
+    ::lbl_skip42::
     L4_2 = Wait
     L5_2 = 500
     L4_2(L5_2)

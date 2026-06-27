@@ -1112,86 +1112,32 @@ else
   end
   MakePedIgnoreHitFromOtherPlayer = L1_1
   function L1_1(A0_2, A1_2, A2_2, A3_2, A4_2, A5_2)
-    local L6_2, L7_2, L8_2, L9_2, L10_2, L11_2, L12_2
     if nil == A4_2 then
       A4_2 = "keyboard"
     end
-    L6_2 = dbg
-    L6_2 = L6_2.debug
-    L7_2 = "Registering key %s %s %s"
-    L8_2 = A3_2
-    L9_2 = A1_2
-    L10_2 = A2_2
-    L6_2(L7_2, L8_2, L9_2, L10_2)
-    if nil ~= A5_2 then
-      L6_2 = type
-      L7_2 = A5_2
-      L6_2 = L6_2(L7_2)
-      if "table" == L6_2 then
-        L6_2 = next
-        L7_2 = A5_2
-        L6_2 = L6_2(L7_2)
-        if L6_2 then
-          L6_2 = A5_2.state
-          L7_2 = A5_2.cooldown
-          L8_2 = nil
-          if L6_2 then
-            L9_2 = RegisterCommand
-            L10_2 = A1_2
-            L11_2 = A3_2
-            L10_2 = L10_2 .. L11_2
-            function L11_2()
-              local L0_3, L1_3, L2_3
-              L0_3 = GetGameTimer
-              L0_3 = L0_3()
-              L1_3 = L8_2
-              if L1_3 then
-                L1_3 = L8_2
-                L1_3 = L0_3 - L1_3
-                L2_3 = L7_2
-                if L1_3 < L2_3 then
-                  return
-                end
-              end
-              L1_3 = GetGameTimer
-              L1_3 = L1_3()
-              L8_2 = L1_3
-              L1_3 = A0_2
-              L1_3()
+    dbg.debug("Registering key %s %s %s", A3_2, A1_2, A2_2)
+    if nil ~= A5_2 and type(A5_2) == "table" and next(A5_2) then
+      local hasCooldown = A5_2.state
+      local cooldownTime = A5_2.cooldown
+      local lastUsed = nil
+      if hasCooldown then
+        RegisterCommand(A1_2 .. A3_2, function()
+          local now = GetGameTimer()
+          if lastUsed then
+            if now - lastUsed < cooldownTime then
+              return
             end
-            L12_2 = false
-            L9_2(L10_2, L11_2, L12_2)
-          else
-            L9_2 = RegisterCommand
-            L10_2 = A1_2
-            L11_2 = A3_2
-            L10_2 = L10_2 .. L11_2
-            L11_2 = A0_2
-            L12_2 = false
-            L9_2(L10_2, L11_2, L12_2)
           end
+          lastUsed = GetGameTimer()
+          A0_2()
+        end, false)
+      else
+        RegisterCommand(A1_2 .. A3_2, A0_2, false)
       end
-    end
     else
-      L6_2 = RegisterCommand
-      L7_2 = A1_2
-      L8_2 = A3_2
-      L7_2 = L7_2 .. L8_2
-      L8_2 = A0_2
-      L9_2 = false
-      L6_2(L7_2, L8_2, L9_2)
+      RegisterCommand(A1_2 .. A3_2, A0_2, false)
     end
-    L6_2 = RegisterKeyMapping
-    L7_2 = A1_2
-    L8_2 = A3_2
-    L7_2 = L7_2 .. L8_2
-    L8_2 = "POLICE:"
-    L9_2 = " "
-    L10_2 = A2_2
-    L8_2 = L8_2 .. L9_2 .. L10_2
-    L9_2 = A4_2
-    L10_2 = A3_2
-    L6_2(L7_2, L8_2, L9_2, L10_2)
+    RegisterKeyMapping(A1_2 .. A3_2, "POLICE:" .. " " .. A2_2, A4_2, A3_2)
   end
   RegisterKey = L1_1
 end

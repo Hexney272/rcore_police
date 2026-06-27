@@ -502,8 +502,9 @@ function L6_1(A0_2, A1_2, A2_2, A3_2, A4_2, A5_2, A6_2)
             L45_2(L46_2, L47_2, L48_2, L49_2)
           end
           L20_2 = false
+        end
         ::lbl_398::
-        elseif L41_2 > 1.0 then
+        if L41_2 > 1.0 then
           if A3_2 then
             L45_2 = false
             L0_1 = L45_2

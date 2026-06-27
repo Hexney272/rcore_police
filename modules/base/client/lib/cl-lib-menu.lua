@@ -1011,52 +1011,52 @@ Please add ox_lib into rcore_police/fxmanifest.lua
         end
         L5_2(L6_2, L7_2, L8_2)
         goto lbl_161
-        ::lbl_130::
-        L5_2 = Config
-        L5_2 = L5_2.Menu
-        L6_2 = Menu
-        L6_2 = L6_2.RCORE
-        if L5_2 == L6_2 then
-          if A4_2 then
-            L5_2 = UI
-            L6_2 = L5_2
-            L5_2 = L5_2.ParseData
-            L7_2 = A3_2
-            function L8_2(A0_3)
-              local L1_3, L2_3, L3_3
-              if A0_3 then
-                L1_3 = dbg
-                L1_3 = L1_3.info
-                L2_3 = "Opened menu named [%s]"
-                L3_3 = A0_2.currentName
-                L1_3(L2_3, L3_3)
-              end
-            end
-            L5_2(L6_2, L7_2, L8_2)
-          end
-        else
-          L5_2 = Config
-          L5_2 = L5_2.Menu
-          L6_2 = Menu
-          L6_2 = L6_2.NONE
-          if L5_2 ~= L6_2 then
-            L5_2 = Config
-            L5_2 = L5_2.Menu
-            if nil ~= L5_2 then
-              goto lbl_161
-            end
-          end
-          L5_2 = UI
-          L6_2 = L5_2
-          L5_2 = L5_2.CreateMenuStandalone
-          L7_2 = A1_2
-          L8_2 = A2_2
-          L9_2 = A3_2
-          L10_2 = A4_2
-          L5_2(L6_2, L7_2, L8_2, L9_2, L10_2)
-        end
       end
     end
+  end
+  ::lbl_130::
+  L5_2 = Config
+  L5_2 = L5_2.Menu
+  L6_2 = Menu
+  L6_2 = L6_2.RCORE
+  if L5_2 == L6_2 then
+    if A4_2 then
+      L5_2 = UI
+      L6_2 = L5_2
+      L5_2 = L5_2.ParseData
+      L7_2 = A3_2
+      function L8_2(A0_3)
+        local L1_3, L2_3, L3_3
+        if A0_3 then
+          L1_3 = dbg
+          L1_3 = L1_3.info
+          L2_3 = "Opened menu named [%s]"
+          L3_3 = A0_2.currentName
+          L1_3(L2_3, L3_3)
+        end
+      end
+      L5_2(L6_2, L7_2, L8_2)
+    end
+  else
+    L5_2 = Config
+    L5_2 = L5_2.Menu
+    L6_2 = Menu
+    L6_2 = L6_2.NONE
+    if L5_2 ~= L6_2 then
+      L5_2 = Config
+      L5_2 = L5_2.Menu
+      if nil ~= L5_2 then
+        goto lbl_161
+      end
+    end
+    L5_2 = UI
+    L6_2 = L5_2
+    L5_2 = L5_2.CreateMenuStandalone
+    L7_2 = A1_2
+    L8_2 = A2_2
+    L9_2 = A3_2
+    L10_2 = A4_2
+    L5_2(L6_2, L7_2, L8_2, L9_2, L10_2)
   end
   ::lbl_161::
   L5_2 = dbg
