@@ -9,57 +9,21 @@ L0_1 = require
 L1_1 = "glm"
 L0_1 = L0_1(L1_1)
 glm = L0_1
-L0_1 = isResourceLoaded
-L1_1 = "ox_lib"
-L0_1 = L0_1(L1_1)
-if L0_1 then
-  L0_1 = "%s.lua"
-  L1_1 = L0_1
-  L0_1 = L0_1.format
-  L2_1 = "init"
-  L0_1 = L0_1(L1_1, L2_1)
-  L1_1 = LoadResourceFile
-  L2_1 = "ox_lib"
-  L3_1 = L0_1
-  L1_1 = L1_1(L2_1, L3_1)
-  L2_1 = assert
-  L3_1 = load
-  L4_1 = L1_1
-  L5_1 = "@@ox_lib/%s"
-  L6_1 = L5_1
-  L5_1 = L5_1.format
-  L7_1 = L0_1
-  L5_1, L6_1, L7_1, L8_1 = L5_1(L6_1, L7_1)
-  L3_1, L4_1, L5_1, L6_1, L7_1, L8_1 = L3_1(L4_1, L5_1, L6_1, L7_1, L8_1)
-  L2_1 = L2_1(L3_1, L4_1, L5_1, L6_1, L7_1, L8_1)
-  L3_1 = L2_1
-  L3_1()
+if isResourceLoaded("ox_lib") then
+  local oxFilePath = string.format("%s.lua", "init")
+  local oxContent = LoadResourceFile("ox_lib", oxFilePath)
+  if oxContent then
+    local oxChunk = assert(load(oxContent, string.format("@@ox_lib/%s", oxFilePath)))
+    oxChunk()
+  end
 end
-L0_1 = isResourceLoaded
-L1_1 = "ND_Core"
-L0_1 = L0_1(L1_1)
-if L0_1 then
-  L0_1 = "%s.lua"
-  L1_1 = L0_1
-  L0_1 = L0_1.format
-  L2_1 = "init"
-  L0_1 = L0_1(L1_1, L2_1)
-  L1_1 = LoadResourceFile
-  L2_1 = "ND_Core"
-  L3_1 = L0_1
-  L1_1 = L1_1(L2_1, L3_1)
-  L2_1 = assert
-  L3_1 = load
-  L4_1 = L1_1
-  L5_1 = "@@ND_Core/%s"
-  L6_1 = L5_1
-  L5_1 = L5_1.format
-  L7_1 = L0_1
-  L5_1, L6_1, L7_1, L8_1 = L5_1(L6_1, L7_1)
-  L3_1, L4_1, L5_1, L6_1, L7_1, L8_1 = L3_1(L4_1, L5_1, L6_1, L7_1, L8_1)
-  L2_1 = L2_1(L3_1, L4_1, L5_1, L6_1, L7_1, L8_1)
-  L3_1 = L2_1
-  L3_1()
+if isResourceLoaded("ND_Core") then
+  local ndFilePath = string.format("%s.lua", "init")
+  local ndContent = LoadResourceFile("ND_Core", ndFilePath)
+  if ndContent then
+    local ndChunk = assert(load(ndContent, string.format("@@ND_Core/%s", ndFilePath)))
+    ndChunk()
+  end
 end
 function L0_1(A0_2, A1_2)
   local L2_2, L3_2, L4_2
